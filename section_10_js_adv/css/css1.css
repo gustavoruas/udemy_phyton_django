@@ -1,0 +1,17 @@
+.button_display{
+    background-color: tan;
+}
+
+.button_clear{
+    background-color: rgb(141, 12, 40);
+    color: white;
+}
+
+.button_remove{
+    background-color: rgb(1, 37, 114);
+    color: white;
+}
+
+.div_array_bg{
+    background-color: rgb(100, 72, 35);
+}

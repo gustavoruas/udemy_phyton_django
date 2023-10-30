@@ -1,0 +1,34 @@
+body{
+  /* background-color: rgb(128, 148, 61); */
+
+  /* setting a image background */
+  background: url(images/img_bck_test1.jpg) ;
+  background-blend-mode:color-burn;
+  background-repeat: repeat;
+}
+
+
+.div_class1{
+  color:rgb(145, 67, 232) ;
+  background-color:rgb(218, 219, 156) ;
+  border-color: rgb(77, 75, 199);
+  border-width: 2px;
+  border-style:dotted;
+  font-family: arial;
+}
+
+.p_class1{
+  color: rgb(68, 232, 181);
+}
+
+/* any link within any li */
+li a{
+  color: rgb(199, 122, 45);
+  font-family: cursive;
+}
+
+/* within any li list but specific elemet inside by ID*/
+li a[id="specific_a_id1"]{
+  color: rgb(108, 20, 162);
+  border: 2px solid orange;
+}

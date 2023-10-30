@@ -1,0 +1,32 @@
+.container_1{
+  width: 80%;
+  margin-left:auto;
+  margin-right: auto;
+  /* border: 2px solid grey; */
+  /* overflow: hidden; */
+  text-align: center;
+}
+
+.header3_1{
+  margin: 1px 1px 1px 1px;
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Sigmar One';
+  font-size: 33px;
+}
+
+
+.color_rect_shape{
+  /* border: 2px solid grey; */
+  height: 220px;
+  width: 120px;
+  /* float: left; */
+  display:inline-block ;  /* makes the dives side by side*/
+  margin: 5px 5px 5px 5px ;
+}
+
+#divcolor_1{ background-color: #fcde9c}
+#divcolor_2{ background-color: #FFA552}
+#divcolor_3{ background-color: #ba5624}
+#divcolor_4{ background-color: #381D2A}
+#divcolor_5{ background-color: #c4d6b0}

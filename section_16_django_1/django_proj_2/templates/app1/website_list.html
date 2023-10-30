@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% extends "app1/base.html" %} {% block body_block %}
+<header>
+  <h1>Website Records</h1>
+  <nav>
+    <ul>
+      <li><a href="{% url 'app1:index'%}">Back to Index</a></li>
+      <li><a href="{% url 'app1:webpage_form' %}">Add Website</a></li>
+    </ul>
+  </nav>
+</header>
+
+<table class="tb_format1">
+  <thead>
+    <th>Topic</th>
+    <th>Site Name</th>
+    <th>URL</th>
+    <th>Action</th>
+  </thead>
+  {% if webpage_dict %} {% for loop in webpage_dict %}
+  <tr class="tr_format_underline1">
+    <td class="tr_format_underline1">{{loop.topic}}</td>
+    <td class="tr_format_underline1">{{loop.name}}</td>
+    <td class="tr_format_underline1">{{loop.url}}</td>
+    <td>
+      <a href="{% url 'app1:webpage_edit' id=loop.id %}">
+        <span class="glyphicon glyphicon-pencil" >Edit</span>
+      </a> 
+      <a href="{% url 'app1:webpage_delete' id=loop.id %}" id="delete_link">
+        <span class="glyphicon glyphicon-pencil" >Delete</span>
+      </a>       
+    </td>
+  </tr>
+  {% endfor %} {% else %}
+  <tr class="tr_format_underline1">
+    <td>No data Found.</td>
+  </tr>
+
+  {% endif %}
+</table>
+{% endblock %}

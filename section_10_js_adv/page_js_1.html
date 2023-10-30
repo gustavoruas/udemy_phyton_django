@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- importing bootstrap from local folder, CSS and JS -->
+    <link rel="stylesheet" href="../bootstrap5/css/bootstrap.css">
+    <script src="../bootstrap5/js/bootstrap.js"></script>
+    <script src="../bootstrap5/js/bootstrap.min.js"></script>
+    <script src="../bootstrap5/js/bootstrap.bundle.min.js"></script>
+
+
+    <meta charset="UTF-8">
+    <title>Basic JS functions</title>
+    <script src="js_files/functions_js_1.js"></script>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <h3>JS function being called via loaded script</h3>
+        <p>Function Called:</p>
+        <kbd>alert_hello("Hello wordl called via function")</kbd>
+        <script>alert_hello("Hello wordl called via function")</script>
+
+        <p>Function Called</p>
+        <kbd>write_char_loop(char,id, amount)</kbd>
+        <div id="div_to_print"></div>
+        <script>write_char_loop("=","div_to_print", 15)</script>
+
+    </div>
+
+</body>
+
+</html>

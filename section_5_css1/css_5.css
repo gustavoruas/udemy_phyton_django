@@ -1,0 +1,17 @@
+
+/* hierarchical of the the following order, here is all tags, class and the n ID ,
+ order of respecting the CSS */
+
+li{
+  color: rgb(232, 255, 2);
+}
+
+/* for class use .classname */
+
+.topitems{
+  color:rgb(34, 61, 179);
+}
+
+#top2{
+  color:rgb(201, 48, 195) ;
+}

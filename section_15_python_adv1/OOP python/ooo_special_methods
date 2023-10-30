@@ -1,0 +1,31 @@
+class Book():
+    def __init__(self,title, author, pages):
+        self.title  = title 
+        self.author = author
+        self.pages  = pages 
+        
+    #Special methods are methods that use the same reserved Python word functions, 
+    # when calling a method of a datatype{ len(), str(), list() .. etc.}
+    #Which can be customized for the custom Class
+    
+    #reserved word str
+    def __str__(self):
+        return "Title {}, Author: {}, Pages: {}".format(
+            self.title
+            ,self.author
+            ,self.pages 
+        )
+        
+    #Reserved word for len
+    def __len__(self):
+        return len(
+            self.title
+            +self.author
+            +str(self.pages)            
+        )
+        
+        
+new_book = Book("guanga","Doplador",340)
+
+print(str(new_book))
+print(len(new_book))

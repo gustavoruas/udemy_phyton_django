@@ -1,0 +1,35 @@
+.bg_grey_color1{
+    background-color: rgb(201, 198, 198);
+}
+
+.custom_container_size1{
+    max-width: 300px;
+}
+
+
+.text_initial{
+    font-family: "Comic Sans MS";
+    color: rgb(0, 0, 0);
+    font-size: 50px;
+    height: 80px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.text_for_x{
+    font-family: "Comic Sans MS";
+    color: rgb(196, 0, 0);
+    font-size: 50px;
+    height: 80px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.text_for_o{
+    font-family: "Comic Sans MS";
+    color: rgb(0, 22, 148);
+    font-size: 50px;
+    height: 80px;
+    text-align: center;
+    vertical-align: text-bottom;
+}

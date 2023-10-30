@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- importing bootstrap from local folder, CSS and JS -->
+    <link rel="stylesheet" href="../bootstrap5/css/bootstrap.css">
+    <script src="../bootstrap5/js/bootstrap.js"></script>
+    <script src="../bootstrap5/js/bootstrap.min.js"></script>
+    <script src="../bootstrap5/js/bootstrap.bundle.min.js"></script>
+
+    <!-- //importing locally jquery - Can be called via url too -->
+    <script src="../jquery/jquery-3.6.4.js"></script>
+
+    <title>Jquery example 1</title>
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>Jquery tag basics</h1>
+        <div class="p-5 mb-4 bg_grey_color1 bg-opacity-25 rounded-3">
+            <p>To fetch the element by all tag name</p>
+            <ul>
+                <li>
+                    <code>$("a")</code> - Fetches all a link tags in the document
+                </li>
+                <li>
+                    <code>$(".name_of_class")</code> - Fetchess all tags that contain the referenced class name
+                </li>
+                <li>
+                    <code>$("#id_name")</code> - Fetches all tags that contain the referenced ID
+                </li>
+            </ul>
+            <br>
+            <p>Change CSS of specific object</p>
+            <ul>
+                <li>
+                    <code>$("#id_name").css("property", "value")</code> - Changes a single property of CSS to the ID of tag element selected
+                </li>
+                <li>Defines multiple CSS attributes via a CSS object in JQUERY<br>
+                    <code>var cssobjc = {
+                      "color" : "blue", "border" : "20px solid green"    
+                    }<br>                        
+                    $("#id_name").css(cssobjc)
+                    </code>
+                </li>
+                <li>
+                    <code>$("tag").addClass("className")</code> - This adds a new class into the property "class" of a tag element, from a CSS loaded into the HTML page.<br>
+                    <code>$("tag").removeClass("className")</code> - This removes a class Name from the property "class" of the object<br>
+                    <code>$("tag").toggleClass("className")</code> - This removes or adds a class Name from the property "class" of the object
+                </li>
+            </ul>
+            <p>Fetching text from HTML tag</p>
+            <ul>
+                <li>
+                    <code>$("#ID_NAME").text()</code> - Fetches text from the tag with ID<br>
+                    <code>$("#ID_NAME").text("new text")</code> - Changes text from the tag with ID
+                </li>
+                <li>
+                    <code>$("#ID_NAME").html()</code> - Fetches html content from the tag with ID<br>
+                    <code>$("#ID_NAME").html("<>")</code> - Changes html content from the tag with ID
+                </li>
+            </ul>
+
+        </div>
+
+
+    </div>
+    
+</body>
+</html>

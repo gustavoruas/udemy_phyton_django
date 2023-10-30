@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends "app1/base.html"%} 
+{% block body_block %}
+
+<header class="container">
+    <h1>Webpage Edit</h1>
+  </header>
+  
+  <form method="POST" class="post-form">
+    {% csrf_token %}
+  
+    <div class="form-group">
+      {{webpage_dict.as_p}}
+    </div>
+  
+    <input type="submit" class="btn btn-primary" value="Update">
+    <a href="{% url 'app1:website_list'%}" class="btn btn-danger" tabindex="-1" role="button" aria-disabled="true">Return</a>
+    
+  
+  </form>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends "app1/base.html" %} 
+{% comment %} Must extend the HTML file which contains the {BLOC} specific name, with app name before {% endcomment %} 
+{%comment %} same block name used in BASE.HTML mus tbe referenced {% endcomment %}
+{% block body_block %} {% comment %} Page content to be loaded dynamically {%endcomment %}
+<header>
+  <h1>User Records</h1>
+  <nav>
+    <ul>
+      <li><a href="{% url 'app1:index'%}">Back to Index</a></li>
+      <li><a href="{% url 'app1:user_form'%}">Add User</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="">
+  <table class="tb_format1">
+    <thead>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Action</th>
+    </thead>
+    {% if user_dict %} {% for loop in user_dict %}
+    <tr class="tr_format_underline1">
+      <td class="tr_format_underline1">{{loop.first_name}}</td>
+      <td class="tr_format_underline1">{{loop.last_name}}</td>
+      <td class="tr_format_underline1">{{loop.email}}</td>
+      <td>
+        <a href="{% url 'app1:user_edit' id=loop.id %}">
+          <span class="glyphicon glyphicon-pencil" >Edit</span>
+        </a> 
+        <a href="{% url 'app1:user_delete' id=loop.id %}" id="delete_link">
+          <span class="glyphicon glyphicon-pencil" >Delete</span>
+        </a>   
+
+      </td>
+    </tr>
+    {% endfor %} {% else %}
+    <tr class="tr_format_underline1">
+      <td>No data Found.</td>
+    </tr>
+
+    {% endif %}
+  </table>
+</div>
+
+{% endblock %} {% comment %} if extending via block name, no need to close BODY
+and HTML tags. {% endcomment %}

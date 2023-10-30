@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DOM - Document Object Module interation 1</title>
+
+    <!-- importing bootstrap from local folder, CSS and JS -->
+    <link rel="stylesheet" href="../bootstrap5/css/bootstrap.css">
+    <script src="../bootstrap5/js/bootstrap.js"></script>
+    <script src="../bootstrap5/js/bootstrap.min.js"></script>
+    <script src="../bootstrap5/js/bootstrap.bundle.min.js"></script>
+
+    <script src="js_files/random_color_gen_js_1.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h3 id="color_cycle_1">DOM - Document Object Module</h3>
+        <p>Some important document references and their functionality for HTML page attributes</p>
+        <ul>
+            <li><code>document.URL  </code> - This is the URL of the whole site</li>
+            <li><code>document.body </code> - this is everything inside the body tag</li>
+            <li><code>document.head </code> - This is everything in the header of the page</li>
+            <li><code>document.links</code> - These are all the links on the page</li>
+
+        </ul>
+
+        <p>Here are some methods to fetch HTML elements</p>
+        <ul>
+            <li><code>document.getElementById(id)</code> - returns element with the defined id</li>
+            <li><code>document.getElementsByClassName(name)</code> - returns elements with the specific attribute name
+            </li>
+            <li><code>document.getElementsByTagName(tag)</code> - returnslist off all element tags defined by param</li>
+            <li><code>document.querySelector()</code> - Returns the first object matching the CSS style selector</code></li>
+            <ul>
+                <li>CSS Style Selectors - .(class) , #(id), tagName</li>
+            </ul>
+            <li><code>document.querySelectorAll()</code> - Returns all object matching the CSS style selector </li>
+        </ul>
+
+    </div>
+    <script>element_color_changer("color_cycle_1")</script>
+
+</body>
+
+</html>

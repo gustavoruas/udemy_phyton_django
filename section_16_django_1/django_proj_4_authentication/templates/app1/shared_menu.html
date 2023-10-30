@@ -1,0 +1,19 @@
+
+<nav class="sidebar">
+    <ul>
+        {% comment %} <li><a href="../accessRecordsList/">Access records</a></li> {% endcomment %}
+        <li><a href="{% url 'app1:index'%}">Index</a></li>
+        <li><a href="{% url 'app1:register_user'%}">Register</a></li>
+        <li><a href="{% url 'app1:user_list'%}">user List</a></li>
+        {% comment %} show admin link for logged users only {% endcomment %}
+        {% if user.is_authenticated %}
+        <li><a href="/admin/">Admin Page</a></li>
+        {% endif %}
+        {% comment %} Here restricts to show link only to auth users {% endcomment %}
+        {% if user.is_authenticated%}
+        <li><a href="{% url 'app1:logout'%}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'app1:user_login'%}">Login</a></li>
+        {% endif %}        
+    </ul>
+</nav>

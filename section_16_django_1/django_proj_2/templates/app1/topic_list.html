@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% extends "app1/base.html" %} {% comment %} Must extend the HTML file which
+contains the {BLOC} specific name, with app name before {% endcomment %}
+{%comment %} same block name used in BASE.HTML mus tbe referenced 
+{% endcomment%} 
+{% block body_block %}
+<header>
+  <h1>Topic Records</h1>
+  <nav>
+    <ul>
+      <li><a href="..">Back to Index</a></li>
+      <li><a href="../topicForm/">Add Topic</a></li>
+    </ul>
+  </nav>
+</header>
+
+<table class="tb_format1">
+  <thead>
+    <th>Topic Name</th>
+    <th>Action</th>
+  </thead>
+  {% if topic_dict %} 
+  {% for loop in topic_dict %}
+  <tr class="tr_format_underline1">
+    <td class="tr_format_underline1">{{loop.top_name}}</td>
+    <td>
+      <a href="{% url 'app1:topic_edit' id=loop.id %}">
+        <span class="glyphicon glyphicon-pencil" >Edit</span>
+      </a> 
+      <a href="{% url 'app1:topic_delete' id=loop.id %}" id="delete_link">
+        <span class="glyphicon glyphicon-pencil" >Delete</span>
+      </a>     
+
+    </td>
+  </tr>
+  {% endfor %} 
+  {% else %}
+  <tr class="tr_format_underline1">
+    <td>No data Found.</td>
+  </tr>
+
+  {% endif %}
+</table>
+
+{% endblock %}

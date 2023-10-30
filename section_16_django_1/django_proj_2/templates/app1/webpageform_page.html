@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends "app1/base.html" %} 
+{% block body_block %}
+<header class="container">
+  <h1>Webpage Form</h1>
+</header>
+<div class="container">
+  <form method="POST">
+    {% comment %} As security Standards, CSFR is needed at every form page call
+    {% endcomment %} {% csrf_token %} {% comment %} the dictionary defined in
+    views.py is loaded as a form object THe ".as_p" attribute lists as
+    paragraphs, each element of the dictionary {% endcomment %} {% comment %}
+    {{webpage_form_dict.as_div}} {% endcomment %} 
+    {% for field in webpage_form_dict %}
+    <div class="form-group">{{ field.label_tag }} {{ field }}</div>
+    {% endfor %}
+
+    <input type="submit" class="btn btn-primary" value="Send" />
+    <a
+      href="{% url 'app1:website_list'%}"
+      class="btn btn-danger"
+      tabindex="-1"
+      role="button"
+      aria-disabled="true"
+      >Return</a
+    >
+  </form>
+</div>
+
+{% endblock %}

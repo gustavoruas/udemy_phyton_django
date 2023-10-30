@@ -1,0 +1,1 @@
+arra_str_check

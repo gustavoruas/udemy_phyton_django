@@ -1,0 +1,36 @@
+.tb_format1{
+    border: 1px rgb(100, 100, 100);
+    border-style: dotted;
+}
+
+.tr_format_underline1{
+    border-bottom: 1px rgb(36, 36, 36);
+    border-bottom-style: double;
+}
+
+/* nav menu */
+.sidebar{
+    height: 100%;
+    width: 150px;
+    position: fixed;
+    vertical-align: top;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    padding-top: 2px;
+    color: white;
+}
+
+/* all <A> tag inside the class */
+.sidebar a{
+    padding: 5;
+    text-align: left;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    color: white;
+}
+
+.sidebar a:hover{
+    background-color: #555;
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html> 
+{% extends "app1/base.html" %} 
+{% load static %} 
+{% block body_block%} 
+<header>
+    <h1>User Records</h1>
+    <nav>
+      <ul>
+        <li><a href="{% url 'app1:index'%}">Back to Index</a></li>
+        <li><a href="{% url 'app1:register_user'%}">Register User</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="">
+    <table class="tb_format1">
+      <thead>
+        <th>UserName</th>
+        <th>Email</th>
+        <th>Action</th>
+      </thead>
+      {% if user_dict %} {% for loop in user_dict %}
+      <tr class="tr_format_underline1">
+        <td class="tr_format_underline1">{{loop.user.username}}a</td>
+        <td class="tr_format_underline1">{{loop.user.email}}a</td>
+        <td>
+          {% comment %} <a href="{% url 'app1:user_edit' id=loop.id %}"> {% endcomment %}
+          <a href="">
+            <span class="glyphicon glyphicon-pencil" >Edit</span>
+          </a> 
+          <a href="{% url 'app1:user_delete' id=loop.id %}" id="delete_link">
+            <span class="glyphicon glyphicon-pencil" >Delete</span>
+          </a>   
+  
+        </td>
+      </tr>
+      {% endfor %} 
+      {% else %}
+      <tr class="tr_format_underline1">
+        <td>No data Found.</td>
+      </tr>
+  
+      {% endif %}
+    </table>
+  </div>
+
+{% endblock %}
+

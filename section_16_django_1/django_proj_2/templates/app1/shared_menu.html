@@ -1,0 +1,10 @@
+
+<nav class="sidebar">
+    <ul>
+        {% comment %} <li><a href="../accessRecordsList/">Access records</a></li> {% endcomment %}
+        <li><a href="{% url 'app1:access_record_list'%}">Access records</a></li>
+        <li><a href="{% url 'app1:website_list'%}">Website List</a></li>
+        <li><a href="{% url 'app1:topic_list'%}">Topic List</a></li>
+        <li><a href="{% url 'app1:user_list'%}">User List</a></li>
+    </ul>
+</nav>

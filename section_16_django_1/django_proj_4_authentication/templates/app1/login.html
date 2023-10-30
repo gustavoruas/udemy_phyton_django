@@ -1,0 +1,24 @@
+<!DOCTYPE html> 
+{% extends "app1/base.html" %} 
+{% load static %} 
+{% block body_block%} 
+
+<div class="container">
+    <form method="POST" class="post-form">
+        {% csrf_token %}      
+
+        <label for="id_username">Username:</label>
+        <input type="text" name="username" required id="id_username" placeholder="Enter username">
+
+        <label for="id_password">Password:</label>
+        <input type="password" name="password" required id="id_password">        
+
+        </label>
+
+        <input type="submit" class="btn btn-primary" value="Login">
+             
+      </form>
+
+</div>
+
+{% endblock %}

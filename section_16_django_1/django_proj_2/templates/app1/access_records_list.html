@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends "app1/base.html" %} {% block body_block %}
+<header>
+  <h1>Access Records</h1>
+  <nav>
+    <ul>
+      <li><a href="..">Back to Index</a></li>
+    </ul>
+  </nav>
+</header>
+<table class="tb_format1">
+  <thead>
+    <th>Site Name</th>
+    <th>Access Date</th>
+  </thead>
+  {% if access_record_dict %} {% for loop in access_record_dict %}
+  <tr class="tr_format_underline1">
+    <td class="tr_format_underline1">{{loop.name}}</td>
+    <td class="tr_format_underline1">{{loop.date}}</td>
+  </tr>
+  {% endfor %} {% else %}
+  <tr class="tr_format_underline1">
+    <td>No data Found.</td>
+  </tr>
+
+  {% endif %}
+</table>
+{% endblock %}

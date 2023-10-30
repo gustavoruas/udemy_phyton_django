@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Forms ex1</title>
+</head>
+<body>
+
+  <!-- if attribute GET is used, it puts the fields into the URL -->
+  <form class="" action="basic_4_forms.html" method="get">
+    <table>
+      <tr>
+        <th><label for="first_name">First Name</label></th>
+        <th><input required type="text" name="first_name" value=""></th>
+      </tr>
+      <tr>
+        <th>Last Name</th>
+        <th><input type="text" name="last_name" value=""></th>
+      </tr>
+      <tr>
+        <th colspan="2" align="right">
+          <button type="submit" name="button">Save1</button>
+        </th>
+      </tr>
+    </table>
+  </form>
+
+  <br>
+  <!-- using label -->
+  <form class="" action="index.html" method="post">
+
+    <h3>Using Label referencing</h3>
+
+    <label for="first_name2">First Name</label>
+    <input placeholder="insert text" id="first_name2" type="text" name="first_name2" value="">
+<br>
+    <label for="last_name2">last Name</label>
+    <input placeholder="insert text" id="last_name2" type="text" name="last_name2" value="">
+
+  </form>
+
+</body>
+</html>

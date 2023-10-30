@@ -1,0 +1,76 @@
+
+body{
+    margin: -30px 0px 44px 0px;
+    padding: 0px 0px 0px 0px;
+    background-color: rgb(73, 127, 129);
+}
+
+h1{
+  font-size: 45px;
+}
+
+h3{
+  font-size: 25px;
+  margin-bottom: 45px;
+}
+
+.div_body_wrapper{
+  /* top, right, bottom, left  */
+  margin: 0px 8% 0px 8%;
+  background-color: rgb(39, 47, 89);
+  padding: 0px 10% 0px 10%
+
+}
+
+.div_form_wrapper_1{
+  padding: 2px 2px 2px 2px;
+  text-align: center;
+
+  /* text-align: justify; */
+}
+
+/* Applies to any label tag, which is inside a tag with this class */
+.div_form_wrapper_1 label{
+  font-family: 'Arial Rounded MT';
+  color: rgb(255, 255, 255);
+  font-size: 15px;
+  font-weight: bold;
+  display: block;
+  margin: 8px 0px 0px 0px;
+}
+
+/* Applies only to input types="text", inside the tag which uses this class */
+.div_form_wrapper_1 input[type="text"]{
+  width: 200px;
+  padding: 6px 6px 6px 6px;
+  font-family: 'Arial Rounded MT';
+  color: rgb(119, 119, 119);
+}
+
+.header_style_1{
+  font-family: 'Arial Rounded MT';
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  text-align: center;
+}
+
+.parag_style_1{
+  font-family: 'Arial Rounded MT';
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-weight: bold;
+  text-align: justify;
+  margin-bottom: 35px;
+}
+
+.button_submit_1{
+  font-family: 'Arial Rounded MT';
+  color: rgb(39, 47, 89);
+  background-color: rgb(217, 161, 18);
+  font-size: 20px;
+  font-weight: bold;
+  margin: 8px 0px 8px 0px;
+  padding: 22px 8px 22px 8px;
+  /* top, right, bottom, left  -  Or a single value for all sides */
+  border-radius: 20px 5px;
+}

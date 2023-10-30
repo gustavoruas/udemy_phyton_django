@@ -1,0 +1,17 @@
+/* More CSS selectors */
+/* https://www.w3schools.com/css/css_selectors.asp */
+
+ /* applies to all tags */
+ h2{
+   color:#60175d;
+ }
+
+li{
+  color:rgb(159, 157, 95) ;
+}
+
+
+/* applies to ID from attributes of html tags */
+#li_2{
+  color: rgb(43, 105, 198);
+}

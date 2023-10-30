@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- importing bootstrap from local folder, CSS and JS -->
+    <link rel="stylesheet" href="../bootstrap5/css/bootstrap.css">
+    <script src="../bootstrap5/js/bootstrap.js"></script>
+    <script src="../bootstrap5/js/bootstrap.min.js"></script>
+    <script src="../bootstrap5/js/bootstrap.bundle.min.js"></script>
+
+    <script src="js_files/arrays_js_1.js"></script>
+
+    <link rel="stylesheet" href="css/css1.css">
+
+    <meta charset="UTF-8">
+    <title>JS Arrays</title>
+</head>
+<body>
+
+    <div class="container">
+        <h3>Click the add button to add elements. Display to show them all</h3>
+        <div class="form-group">
+            <label for=" input_field_1">Text Input</label>
+            <input type="text" id="input_field_1" name="input_field_1" class="form-control">
+            <a href="#" onclick="get_field_text('input_field_1');" id="add_btn" class="btn btn-primary">Add</a>
+            <a href="#" onclick="print_array('div_1');" id="display_btn" class="btn button_display">Display Array</a>
+            <a href="#" onclick="clear_array('div_1');" id="display_btn" class="btn button_clear">Clear Array</a>
+            <a href="#" onclick="remove_from_array('div_1');" id="display_btn" class="btn button_remove">Remove Last Element</a>
+            <div id="div_1" class="container div_array_bg"></div>
+
+        </div>
+
+    </div>
+    
+</body>
+</html>

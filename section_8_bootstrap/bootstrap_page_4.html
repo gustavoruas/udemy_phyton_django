@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!-- importing bootstrap from local folder, CSS and JS -->
+    <link rel="stylesheet" href="bootstrap5/css/bootstrap.css">
+    <script src="bootstrap5/js/bootstrap.js"></script>
+    <script src="bootstrap5/js/bootstrap.min.js"></script>
+    <script src="bootstrap5/js/bootstrap.bundle.min.js"></script>
+
+    <!-- importing from the web
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script> -->
+
+
+
+    <meta charset="utf-8">
+    <title>Grid System</title>
+  </head>
+  <body>
+
+    <!-- this is a custom formating, can be added along with BOOTSTRAP, after a space in the class prop -->
+    <style>
+      .col_box1{
+        background: rgb(133, 144, 27);
+        border: 1px solid black;
+      }
+    </style>
+
+    <div class="container">
+      <div style="text-align:center">
+        <img src="images/bootstrap_grid_layout_ex_1.png" alt="" width="400px">
+      </div>
+
+      <p>Grid systems must contain the .row class within the div, to work. The pattern for it is to base <a href="https://getbootstrap.com/docs/5.3/layout/grid/">Link_reference</a>
+        <ul>
+          <li>class constitutes of col-"ScreenSize"-"NumberOfColumns"</li>
+          <li>Screensize xs, sm, md, lg, xk, xxl</li>
+          <li>Columns are numbers between 1 - 12</li>
+        </ul>
+      </p>
+
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <h5>For Extra Small screens SM</h5>
+        <div class="col-2 col_box1"> col-2 for Xsmall
+        </div>
+        <div class="col-10 col_box1"> col-10 for Xsmall
+        </div>
+
+        <h5>For Small screens SM</h5>
+        <div class="col-sm-2 col_box1"> col-sm-2
+        </div>
+        <div class="col-sm-10 col_box1"> col-sm-10
+        </div>
+      </div>
+
+    </div>
+    <br>
+    <div class="container">
+      <div class="row">
+        <h5>This keeps 3 columns within large screen and small screens, able to contain 2 multiple class grid sizes so it respects screen resize</h5>
+        <div class="col-lg-4 col-sm-4 col_box1"> col-lg-4 col-sm-4
+        </div>
+        <div class="col-lg-4 col-sm-4 col_box1"> col-lg-4 col-sm-4
+        </div>
+        <div class="col-lg-4 col-sm-4 col_box1"> col-lg-4 col-sm-4
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>

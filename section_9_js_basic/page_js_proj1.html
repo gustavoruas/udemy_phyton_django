@@ -1,0 +1,62 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- importing bootstrap from local folder, CSS and JS -->
+    <link rel="stylesheet" href="../bootstrap5/css/bootstrap.css">
+    <script src="../bootstrap5/js/bootstrap.js"></script>
+    <script src="../bootstrap5/js/bootstrap.min.js"></script>
+    <script src="../bootstrap5/js/bootstrap.bundle.min.js"></script>
+
+    <script src="js_files/proj1_js.js"></script>
+
+    <title>JS Proj 1</title>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h3>Please fill in the fields bellow</h3>
+
+        <form action="#" id="main_form">
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" class="form-control" id="first_name" name="first_name">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name">
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="text" class="form-control" id="age" name="age">
+            </div>
+            <div class="form-group">
+                <label for="height">Height</label>
+                <input type="text" class="form-control" id="height" name="height">
+            </div>         
+            
+            <div class="form-group">
+                <label for="pet_name">Pet Name</label>
+                <input type="text" class="form-control" id="pet_name" name="pet_name">
+            </div>              
+
+        </form>
+
+        <a href="#" class="btn btn-primary btn-lg active" id="check_btn"
+         onclick="check_form('main_form');"
+        >Check</a>
+        <a href="#" class="btn btn-danger btn-lg active" id="check_btn">Clear</a>
+
+    </div>
+    <p></p>
+
+    <div class="container bg-warning invisible" id="return_text_div">
+        return text
+    </div>
+
+</body>
+
+</html>

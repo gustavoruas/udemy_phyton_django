@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- importing bootstrap from local folder, CSS and JS -->
+    <link rel="stylesheet" href="../bootstrap5/css/bootstrap.css">
+    <script src="../bootstrap5/js/bootstrap.js"></script>
+    <script src="../bootstrap5/js/bootstrap.min.js"></script>
+    <script src="../bootstrap5/js/bootstrap.bundle.min.js"></script>
+
+    <script src="js_files/objects_js_1.js"></script>
+
+    <link rel="stylesheet" href="css/css1.css">
+
+    <title>HS Objects</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <h3>JS Objects - Add an index and a value to aggregate to a custom object</h3>
+        <div class="form-group">
+            <label for=" input_index">Index</label>
+            <input type="text" id="input_index" name="input_index" class="form-control">
+            <label for=" input_value">Value</label>
+            <input type="text" id="input_value" name="input_value" class="form-control">            
+            <a href="#" onclick="add_js_object('input_index','input_value');" id="add_btn" class="btn btn-primary">Add</a>
+            <a href="#" onclick="print_object_array('div_1');" id="display_btn" class="btn button_display">Display Array</a>
+            <a href="#" onclick="clear_object_list('div_1');" id="display_btn" class="btn button_clear">Clear Array</a>
+            <a href="#" onclick="remove_from_object('div_1');" id="display_btn" class="btn button_remove">Remove Last Element</a>
+            <div id="div_1" class="container div_array_bg"></div>
+
+        </div>
+        <br>
+        <h3>Pre defined JS object with name and surname attribute, and a method that returns lenght of name</h3>
+        <div class="form-group">
+            <label for=" input_name">Name</label>
+            <input type="text" id="input_name" name="input_name" class="form-control">
+            <label for=" input_surname">Surname</label>
+            <input type="text" id="input_surname" name="input_surname" class="form-control">            
+            <a href="#" onclick="create_user_obj('input_name','input_surname');" id="add_btn" class="btn btn-primary">Add</a>
+            <a href="#" onclick="print_user_obj('div_2');" id="display_btn" class="btn button_display">Display Array</a>
+            <div id="div_2" class="container div_array_bg"></div>
+
+        </div>        
+
+    </div>
+
+</body>
+
+</html>l

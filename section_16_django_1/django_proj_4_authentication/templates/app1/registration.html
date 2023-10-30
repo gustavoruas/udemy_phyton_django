@@ -1,0 +1,27 @@
+{% extends "app1/base.html" %} {% load static %} 
+{% block body_block%} 
+{% if registered %}
+<h1>User registered</h1>
+{% else %}
+
+<div class="container">
+  <h1>Registration Form</h1>
+  <form method="POST" class="post-form">
+    {% csrf_token %}
+
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+
+    <input type="submit" class="btn btn-primary" value="Send" />
+    <a
+      href=""
+      class="btn btn-danger"
+      tabindex="-1"
+      role="button"
+      aria-disabled="true"
+      >Return</a>
+    </div>
+  </form>
+</div>
+{% endif %} 
+{% endblock %}

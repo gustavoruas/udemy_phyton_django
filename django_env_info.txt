@@ -1,0 +1,25 @@
+#Installed folder
+E:\Software\anaconda_virtual_server
+
+#Creating new django server
+conda create --name <server_name> django
+
+#Starging server
+conda activate djangoDevEnv
+
+#End Server
+conda deactivate
+
+#Listing all servers environments
+conda info --envs
+
+#To start a django project via VS studio
+#navigate to the code folders via cmd
+#once there
+django-admin startproject <project_name>
+
+#it creates file structure, in order to start web server run, file manage.py must be
+#in folder directory
+python manage.py runserver
+
+#To create an application inside the created server

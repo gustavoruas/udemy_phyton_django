@@ -1,0 +1,24 @@
+<!--Need to load this instruction in order to reference STATIC files from django project  -->
+{% load static %}
+<html>
+    <head>
+
+        <link rel="stylesheet" href="{% static "css/example_css.css"%}">
+
+    </head>
+
+    <body>
+        <h1 class="h1_class1">This page comes from a html file!</h1>
+
+        <!-- this is a simple Injection code from python, comes from hello_world_2.views.py-->
+        <u>{{inserted_text}}</u>
+        <br>
+
+        <p class="h1_class1"><u>This is a injection of static files</u></p><br>
+        <img src="{% static "images/image_alien_aigen.png" alt="Unable to load file" %}" width="200px"> </img>
+
+
+    </body>
+    
+</html>
+
