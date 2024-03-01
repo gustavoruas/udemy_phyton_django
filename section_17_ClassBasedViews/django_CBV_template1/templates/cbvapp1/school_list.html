@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends "cbvapp1/base.html" %} 
+{% block body_block%}
+<div class="container">
+  <h1>List of schools</h1>
+  <a class="btn btn-primary" href="{% url 'cbvapp1:school_create_url' %}">Create School</a>
+  <ol>
+    {% for school_loop in dict_school_listview %}
+    <h2>
+      <li>
+        <a href="{{school_loop.school_id}}">{{school_loop.school_name}}</a>
+      </li>
+    </h2>
+    {%endfor%}
+  </ol>
+</div>
+{% endblock %}

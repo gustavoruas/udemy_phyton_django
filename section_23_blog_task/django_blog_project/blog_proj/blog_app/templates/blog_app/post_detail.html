@@ -1,0 +1,63 @@
+{% extends "blog_app/base.html" %}
+
+{% block content %}
+
+<h1 class="">{{post.title}}</h1>
+{% if post.published_date  %}
+<div class="date postdate">
+      {{post.published_date}}
+</div>
+
+{% else %}
+<a href="{% url "blog_app:post_publish_url" pk=post.post_id%}" class="btn btn-default">Publish</a>
+
+{% endif %}
+
+<p class="postcontent"> {{post.title|safe|linebreaksbr}} </p>
+
+{% if user.is_authenticated  %}
+  <a class="btn btn-primary" href="{% url "blog_app:post_update_url" pk=post.post_id%}">
+    <span class="glyphicon glyphicon-pencil"> </span>
+  </a>
+
+  <a class="btn btn-primary" href="{% url "blog_app:post_delete_url" pk=post.post_id%}">
+    <span class="glyphicon glyphicon-remove"> </span>
+  </a> 
+
+{% endif %}
+
+<hr>
+<a class="btn btn-primary btn-comment" href="{% url "blog_app:add_comment_to_post_url" pk=post.post_id%}">
+  Add comment
+</a>
+
+<div class="container">
+  {% for comment  in post.comments.all  %}
+  <br>  
+    {% if user.is_authenticated or comment.approved_comment  %}
+      {{comment.create_date}}
+
+      {% if not comment.approved_comment %}
+      <p>ID: {{comment.post.post_id}} </p>
+      <a class="btn btn-primary" href="{% url "blog_app:comment_approve_url" pk=comment.comment_id %}">
+        <span class="glyphicon glyphicon-pencil"> </span>
+      </a>
+    
+      <a class="btn btn-primary" href="{% url "blog_app:comment_remove_url" pk=comment.comment_id %}">
+        <span class="glyphicon glyphicon-remove"> </span>
+      </a>       
+      {% endif %}
+
+      <p>{{ comment.text|safe|linebreaks}}</p>
+      <p>Posted By {{comment.author}} </p>
+
+    {% endif %}  
+    {% empty %}
+    <p>No Comments </p>
+  
+  {% endfor %}
+
+
+</div>
+
+{% endblock  %}

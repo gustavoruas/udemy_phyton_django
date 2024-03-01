@@ -1,5 +1,5 @@
 """
-URL configuration for django_CBV_template1 project.
+URL configuration for blog_proj project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -16,8 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+# from django.contrib.auth import login, logout
+
+#https://stackoverflow.com/questions/51541164/login-missing-1-required-positional-argument-user
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('cbvapp1/',include("cbvapp1.urls"))
+    path(r'', include("blog_app.urls")),
+    #path(r'accounts/login/', login, name = "login"),
+    #path(r'accounts/logout/', logout, name = "logout",kwargs={"next_page":"/"})
+    path(r'accounts/login/', auth_views.LoginView.as_view(), name = "login"),
+    path(r'accounts/logout/', auth_views.LogoutView.as_view(), name = "logout",kwargs={"next_page":"/"})
+    
 ]

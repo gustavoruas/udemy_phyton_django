@@ -1,0 +1,44 @@
+{% extends "cbvapp1/base.html" %} 
+
+{% block body_block%}
+
+<h2>
+{% if not form.instance.pk %} Create Student {% else %} Update Student {% endif %}
+
+</h2>
+<div class="container">
+
+<form method="post">
+{% csrf_token %}
+{% comment %} {{ form.as_p }} {% endcomment %}
+
+<p>
+    <label for="{{form.student_name.id_for_label}}">Student Name:</label>
+    {{form.student_name}}
+</p>
+<p>
+    <label for="{{form.age.id_for_label}}">Student age:</label>
+    {{form.age}}
+</p>
+<p>
+    <label for="{{form.school.id_for_label}}">School:</label>
+    <select name="{{form.school.school_name}}" id="{{form.school.id_for_label}}">
+        {%for schoolobj in form.school.field.queryset %}
+           <option value="{{schoolobj.school_id}}" 
+           {% if schoolobj.school_id == form.school.value %} selected {% endif %} 
+           >
+                {{schoolobj.school_name}}
+           </option>
+        {% endfor %}
+    </select>
+
+</p>
+
+
+<input type="submit" class="btn btn-primary" value="Submit">
+
+</form>
+
+</div>
+
+{% endblock %}

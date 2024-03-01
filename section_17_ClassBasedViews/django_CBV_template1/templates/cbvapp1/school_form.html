@@ -1,0 +1,18 @@
+{% extends "cbvapp1/base.html" %} {% block body_block%}
+
+<div class="container">
+  <h2>
+    {% comment %} This if validates the form dictionary object that comes from
+    view, if no PK is present, it creates. {% endcomment %} 
+    {% if not form.instance.pk%} Create School {% else %} Update School Details {% endif%}    
+  </h2>
+
+<form method="post">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" class="btn btn-primary" value="Submit">
+</form>
+
+</div>
+
+{% endblock %}

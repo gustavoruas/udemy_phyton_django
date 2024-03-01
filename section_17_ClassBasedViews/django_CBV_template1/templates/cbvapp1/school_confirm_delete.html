@@ -1,0 +1,14 @@
+{% extends "cbvapp1/base.html" %} 
+
+{% block body_block%}
+<h2>Delete {{dict_school_delete.school_name}} ?</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-danger" value="Delete">
+
+    {% comment %} return to details page with same ID as trying to delete {% endcomment %}
+    <a class="btn btn-primary" href="{% url 'cbvapp1:school_details_url' pk=dict_school_delete.school_id %}">Back</a>
+</form>
+
+{% endblock%}

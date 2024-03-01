@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends "cbvapp1/base.html" %} {% block body_block%}
+
+<div class="container">
+  <h2>School details:</h2>
+  <p>School Name {{dict_school_detailview.school_name}}</p>
+  <p>Principal {{dict_school_detailview.principal}}</p>
+  <p>Address:</p>
+  <ul>
+    <li>{{dict_school_detailview.school_address}}</li>
+  </ul>
+  <h2>Students:</h2>
+  <ol>
+    {% comment %} .students is reference of class model of FK of property related_name {% endcomment %} 
+    {% for student_loop in dict_school_detailview.students.all %}
+      <li>({{student_loop.student_id}}) {{student_loop.student_name}} , age {{student_loop.age}}</li>
+    {% endfor%}
+  </ol>
+</div>
+<div class="container">
+<p>
+  <a class="btn btn-warning" href="{% url 'cbvapp1:school_update_url' pk=dict_school_detailview.school_id%}">Update School</a>
+  <a class="btn btn-danger" href="{% url 'cbvapp1:school_delete_url' pk=dict_school_detailview.school_id%}">Delete School</a>
+  <a class="btn btn-primary" href="{% url 'cbvapp1:school_list_url' %}">Back to List</a>
+</p>
+
+</div>
+
+
+{% endblock %}
