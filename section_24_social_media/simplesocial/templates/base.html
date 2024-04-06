@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Media Page</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <!-- Optional theme -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="{% static 'simplesocial/CSS/master.css'%}">
+
+
+  </head>
+
+  <body>
+    <nav class="navbar mynav" role="navigation" id="navbar">
+      <div class="container">
+        <a class="navbar-brand mynav" href="{% url 'index_url' %}">Social Page Home</a>
+
+        <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+            <li> <a href="{% url 'posts_namespace:post_create_url' %}">Post</a></li>
+            <li> <a href="{% url 'groups_namespace:group_all_url' %}">Groups</a></li>
+            <li> <a href="{% url 'groups_namespace:group_create_url' %}">Create Groups</a></li>
+            <li> <a href="{% url 'accounts_namspace:logout_url'%}">Logout</a></li>
+          
+          {% else %}
+          <li> <a href="{% url 'groups_namespace:group_all_url' %}">Groups</a></li>
+          <li> <a href="{% url 'accounts_namspace:login_url'%}">Login</a></li>
+          <li> <a href="{% url 'accounts_namspace:signup_url'%}">Signup</a></li>
+
+          {% endif %}
+
+        </ul>
+
+      </div>
+    </nav>
+
+    <div class="container">
+    {% block content %} 
+    
+    {% endblock %}
+    </div>
+
+
+  </body>
+</html>

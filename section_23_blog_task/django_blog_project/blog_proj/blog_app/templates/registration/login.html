@@ -9,6 +9,7 @@
 
 {% if form.errors%}
   <p>Password and Username must mach</p>
+  <p>{{form.message}}</p>
 {% endif %}
 
 <form action="{% url 'login'%}" method="POST">
