@@ -1,0 +1,24 @@
+{% extends "base_head.html" %}
+
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="container">
+    
+    <form method="post">
+        {% csrf_token %}
+        {%bootstrap_form form%}
+        <a href="{% url 'user_auth_app:signup_url' %}">Sign up new user.</a>
+        <input type="submit" class="btn btn-default" value="Login">
+
+
+    </form>
+
+</div>
+
+
+{% endblock  %}
+
+
+
+

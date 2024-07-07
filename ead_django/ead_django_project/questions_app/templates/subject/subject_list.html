@@ -1,0 +1,54 @@
+{% extends "base.html" %} {% block content %}
+
+  <div class="table-responsive">
+    <table id="main_content_table" class="table table-bordered table_border_margin_cust">
+      <thead>
+        <tr class="table-cont-header">
+          <td>
+            <a
+              href="{% url 'questions_app:subject_list_url' %}?orderby=subject_name"
+              >Subject Name</a
+            >
+          </td>
+          <td class="action_column">Action</td>
+        </tr>
+      </thead>
+
+      <!-- Table Body -->
+      <tbody>
+        {% for subj in subject_list %}
+        <tr class="table-cont-row">
+          <td>{{subj.subject_name}}</td>
+          <td class="action_column">
+            <a
+              href="{% url 'questions_app:subject_detail_url' pk=subj.subject_id %}"
+              ><span class="glyphicon glyphicon-edit"></span
+            ></a>
+            /
+            <a
+              href="{% url 'questions_app:subject_delete_url' pk=subj.subject_id %}"
+              ><span class="glyphicon glyphicon-remove"></span
+            ></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+
+    <!--Implementing pagination in template-->
+    <!-- this reuses code via inject, with a HTML page - commenting as using DataTable plugin -->
+    {% comment "" %}
+    {% include "generic/_pagination_generic.html" %}
+    {% endcomment %}
+
+  </div>
+
+  <a
+    class="btn btn-default"
+    href="{% url 'questions_app:subject_create_url' %}"
+    >Create subject</a
+  >
+
+
+{% endblock %}

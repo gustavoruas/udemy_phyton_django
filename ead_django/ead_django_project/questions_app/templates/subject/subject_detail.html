@@ -1,0 +1,21 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+<div class="container col-xs-4">
+
+  <h2>subject View</h2>  
+  <p>
+    subject: <label for="{{ subject_context.id_for_label }}"> {{ subject_context.label }} {{subject_context}} </label>
+  </p>
+  <p>
+    <a class="btn btn-default" href="{% url 'questions_app:subject_update_url' pk=subject_context.subject_id%}">Update</a>
+    <a class="btn btn-danger" href="{% url 'questions_app:subject_delete_url' pk=subject_context.subject_id%}">Delete</a>
+    <a class="btn btn-default" href="{% url 'questions_app:subject_list_url' %}">Back to List</a>
+  </p>
+
+
+</div>
+
+
+{% endblock %}

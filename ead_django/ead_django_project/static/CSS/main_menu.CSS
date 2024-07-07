@@ -1,0 +1,63 @@
+.sidebar {   
+  background-color: #485d87;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  padding-top: 50px; /* Adjust this if you have a fixed header */
+}
+
+/* Style menu items */
+.sidebar ul li a {
+  color: white;
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+  background-color: #35455f;
+}
+
+.content {
+  margin-left: 15%;
+  /* Same as the width of the sidebar */
+  padding: 20px;
+}
+
+@media (max-width: 767px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .content {
+    margin-left: 0;
+  }
+}
+
+.custom_offset_row {
+  padding: 0   15px;
+  padding-right: 0px;
+  margin: 0 -15px;
+}
+
+.dropdown_cust1{
+  background-color: #596783;
+  margin-left: 10px;
+}
+
+.dropdown_cust1 ul li a {
+  color: white;
+}
+
+.nav-stacked li a{
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+

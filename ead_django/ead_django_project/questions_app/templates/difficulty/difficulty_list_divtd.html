@@ -1,0 +1,78 @@
+{% extends "base.html" %} {% block content %}
+
+
+  <div class="table-cont-container">
+    <!-- Table Header -->
+    <div class="row table-cont-header">
+      <div class="col-xs-11">
+        <a
+          href="{% url 'questions_app:difficulty_list_url' %}?orderby=difficulty_name"
+          >Difficulty Name</a
+        >
+      </div>
+      <div class="col-md-1">Action</div>
+    </div>
+    <!-- Table Body -->
+    {% for diff in difficulty_list%}
+    <div class="row table-cont-row">
+      <div class="col-xs-11" id="{{diff.difficulty_id}}">
+        {{diff.difficulty_name}}
+      </div>
+
+      <div class="col-md-1">
+        <a
+          href="{% url 'questions_app:difficulty_detail_url' pk=diff.difficulty_id %}"
+          ><span class="glyphicon glyphicon-edit"></span
+        ></a>
+        /
+        <a
+          href="{% url 'questions_app:difficulty_delete_url' pk=diff.difficulty_id %}"
+          ><span class="glyphicon glyphicon-remove"></span
+        ></a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <br />
+
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tr class="table-cont-header">
+        <td>
+          <a
+            href="{% url 'questions_app:difficulty_list_url' %}?orderby=difficulty_name"
+            >Difficulty Name</a
+          >
+        </td>
+        <td class="action_column">Action</td>
+      </tr>
+
+      <!-- Table Body -->
+      {% for diff in difficulty_list%}
+      <tr class="table-cont-row">
+        <td>{{diff.difficulty_name}}</td>
+        <td class="action_column">
+          <a
+            href="{% url 'questions_app:difficulty_detail_url' pk=diff.difficulty_id %}"
+            ><span class="glyphicon glyphicon-edit"></span
+          ></a>
+          /
+          <a
+            href="{% url 'questions_app:difficulty_delete_url' pk=diff.difficulty_id %}"
+            ><span class="glyphicon glyphicon-remove"></span
+          ></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <a
+    class="btn btn-default"
+    href="{% url 'questions_app:difficulty_create_url' %}"
+    >Create Difficulty</a
+  >
+
+
+{% endblock %}

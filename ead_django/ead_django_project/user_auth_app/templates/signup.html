@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container col-xs-">
+
+    {% if customuser_form.errors %}
+    <div class="alert alert-danger mt-1">
+        <strong>Oops! There was an error:</strong>
+        <ul>
+            {% for field in customuser_form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <h2>Signup User.</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {# {% bootstrap_form customuser_form error_types="none" layout='inline' %} #}
+        {% for field  in customuser_form  %}
+        <p> 
+        <label for="{{ field.id_for_label }}">
+            {{ field.label }} {{field}}
+        </label>
+        </p>                  
+        {% endfor %}        
+
+        <input type="submit" class="btn btn-default" value="Create User">
+        <a href="{% url 'user_auth_app:login_url' %}" class="btn btn-default">Back</a>
+
+    </form>
+
+    
+
+
+</div>
+
+
+{% endblock  %}
+
+

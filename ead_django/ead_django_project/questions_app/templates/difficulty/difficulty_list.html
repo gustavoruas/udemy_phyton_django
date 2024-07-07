@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block content %}
+
+
+<div class="table-responsive">
+  <table id="myTable" class="table table-bordered">
+    <thead>
+      <tr class="table-cont-header">
+        <th>Difficulty</th>
+        <th class="action_column">action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <td></td>
+      <td class="action_column"></td>
+    </tbody>
+  </table>
+</div>
+
+<a
+  class="btn btn-default"
+  href="{% url 'questions_app:difficulty_create_url' %}"
+  >Create Difficulty</a>
+
+
+{% endblock %} 
+
+{% block javascript %}
+<script>
+  //Initializing table API for every table with same ID
+  $(document).ready(function () {
+    $("#myTable").DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{% url 'questions_app:difficulty_list_json_url' %}",
+      columns: [{ data: "difficulty_name" }, { data: "action" }],
+      columnDefs: [ 
+        //disables sorting for specific columns
+        { orderable: false, targets: [1] }, 
+        {searcheble: false, targets: [1] }
+      ]
+    });
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{# to import custom {} tags into all pages#. Needs to be loaded in every page used #}
+{% load user_auth_tags %}
+
+{% block  content%}
+<h1>Ead Index Page</h1>
+{{user.email}}
+<br>
+{{user.name}}
+<br>
+{% has_role_from_list user.roles.all "admin_role" %}
+role loop
+{% for role in user.roles.all  %}
+   <p>{{role.name}} </p> 
+   a 
+
+{% endfor %}
+
+
+
+{% endblock%}

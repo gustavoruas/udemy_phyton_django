@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+{% load static %}
+
+{# to import custom {} tags into all pages#. Needs to be loaded in every page used #}
+{% load user_auth_tags %}
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EAD</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <!-- Optional theme -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+
+    <!-- Include jQuery is a MUST for TABS and dropdowns bootstrap -->
+    <script
+    src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+    crossorigin="anonymous"></script>  
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="{% static '/CSS/main_menu.CSS'%}">
+    <link rel="stylesheet" href="{% static '/CSS/tables.CSS'%}">
+
+    <!--Importing datatables JS plugin https://datatables.net/ -->
+    <link href="{% static '/DataTables/datatables.min.css' %}" rel="stylesheet"> 
+    <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+
+
+
+  </head>
+
+<body>
+
+
+<div class="container-fluid">
+  
+  <div class="row"> 
+  
+    <!-- Sidebar -->
+    <div class="container-fluid">
+    <div class="col-xs-12 col-md-2 custom_offset_row sidebar" id="sidebar_1">
+      {% if user.is_authenticated %}
+      <ul class="nav nav-pills nav-stacked" id="sidebar_1">
+        <li><a href="{% url 'index_url' %}">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Test Content <b class="caret"></b></a>
+          <ul role="menu" class="dropdown-menu dropdown_cust1">
+            <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:difficulty_list_url' %}">Difficulty</a></li>
+            <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:subject_list_url' %}">Subject</a></li>
+            <li class="divider"></li>
+            <li role="presentation"><a role="menuitem" href="#">Separated link</a></li>
+          </ul>
+        </li>
+
+        <!-- custom template tag,  -->      
+        {% has_role_from_list user.roles.all "admin_role" as is_admin %}
+        
+        {% if is_admin  %}
+        <li><a href="/admin/">Admin</a></li> 
+        {% endif %}
+          
+        <li><a href="{% url "user_auth_namespace:logout_url" %}">Logout</a></li>   
+        
+      </ul>
+
+            {% endif %}
+
+    </div>
+  </div>
+
+  <!-- Page content -->
+  <div class="col-xs-12 col-md-10 col-md-offset-2 content">
+    <div class="container-fluid">
+      {% block content %} 
+    
+      {% endblock %}
+    </div>
+
+  </div>
+
+</div>
+
+
+</div>
+
+{% block javascript  %}
+
+{% endblock  %}
+
+  </body>
+</html>

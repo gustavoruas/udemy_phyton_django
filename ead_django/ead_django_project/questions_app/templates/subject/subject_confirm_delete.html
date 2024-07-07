@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+    <h2>Delete {{subject_context.subject_name}} ?</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-danger" value="Delete">
+    
+        {% comment %} return to details page with same ID as trying to delete {% endcomment %}
+        <a class="btn btn-primary" href="{% url 'questions_app:subject_detail_url' pk=subject_context.subject_id %}">Back</a>
+    </form>
+
+</div>
+
+
+{% endblock %}

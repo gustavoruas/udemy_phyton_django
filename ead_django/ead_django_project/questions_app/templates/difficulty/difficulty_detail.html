@@ -1,0 +1,21 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+<div class="container col-xs-8">
+
+  <h2>Difficulty View</h2>  
+  <p>
+    Difficulty: <label for="{{ difficulty_context.id_for_label }}"> {{ difficulty_context.label }} {{difficulty_context}} </label>
+  </p>
+  <p>
+    <a class="btn btn-default" href="{% url 'questions_app:difficulty_update_url' pk=difficulty_context.difficulty_id%}">Update</a>
+    <a class="btn btn-danger" href="{% url 'questions_app:difficulty_delete_url' pk=difficulty_context.difficulty_id%}">Delete</a>
+    <a class="btn btn-default" href="{% url 'questions_app:difficulty_list_url' %}">Back to List</a>
+  </p>
+
+
+</div>
+
+
+{% endblock %}
