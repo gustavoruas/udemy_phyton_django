@@ -1,0 +1,6 @@
+.quest-content-detail {
+    border: 1px solid grey; /* Thin grey border all around */
+    padding: 5px; /* Optional padding inside the div */
+    background-color: white; /* Background color for the content */
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2); /* Shadow background tilted to the right */
+}

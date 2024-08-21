@@ -2,13 +2,13 @@
 
 {% block content %}
 
-<div class="container col-xs-4">
+<div class="container col-xs-12">
 
-    {% if difficulty_form.errors %}
+    {% if question_form.errors %}
     <div class="alert alert-danger mt-1">
         <strong>Oops! There was an error:</strong>
         <ul>
-            {% for field in difficulty_form %}
+            {% for field in question_form %}
                 {% for error in field.errors %}
                     <li>{{ error }}</li>
                 {% endfor %}
@@ -17,13 +17,13 @@
     </div>
     {% endif %}
 
-    <h2>Create Difficulty</h2>
+    <h2>Create Question</h2>
 
     <form method="POST">
         {% csrf_token %}
 
         {# {% bootstrap_form customuser_form error_types="none" layout='inline' %} #}
-        {% for field  in difficulty_form  %}
+        {% for field  in question_form  %}
         <p> 
         <label for="{{ field.id_for_label }}">
             
@@ -38,10 +38,12 @@
         {% else %}
         <input type="submit" class="btn btn-default" value="Create">
         {% endif %}
-        <a href="{% url 'questions_app:difficulty_list_url' %}" class="btn btn-default">Back</a>
+        <a href="{% url 'questions_app:question_list_url' %}" class="btn btn-default">Back</a>
 
     </form>
 
 </div>
 
-{% endblock  %}
+
+
+{% endblock content %}

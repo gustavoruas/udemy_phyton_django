@@ -22,9 +22,13 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin_url"),
     path(r'', ead_view.IndexPage.as_view(), name="index_url"),
-    #connecting with ACCPUNTS app
+    #connecting with ACCOUNTS app
     path(r'accounts/',include("user_auth_app.urls", namespace="user_auth_namespace")),
     #connecting question_app
     path(r'ead/',include("questions_app.urls", namespace="questions_namespace")),
     path(r'accounts/',include("django.contrib.auth.urls")),
+    #Adding tinyMCE via django
+    path(r'tinymce/', include('tinymce.urls')),
+    # enabling URL for Debug toolbar
+    path(r'^__debug__/', include('debug_toolbar.urls')),
 ]

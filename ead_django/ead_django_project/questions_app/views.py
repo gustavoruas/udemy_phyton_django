@@ -1,13 +1,12 @@
 import math
-from django.shortcuts import render, get_list_or_404, redirect
+from django.shortcuts import render, get_object_or_404 ,redirect
 from django.db.models.query import QuerySet
-from django.db.models import Q
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (TemplateView, ListView, DetailView, CreateView,
                                   UpdateView, DeleteView
                                   )
-from .models import Difficulty, Subject
-from .forms import DifficultyForm, SubjectForm
+from .models import Difficulty, Subject, Answer, Question
+from .forms import DifficultyForm, SubjectForm, AnswerForm, QuestionForm
 from questions_app.aux_library.json_datatables import json_datatable_data
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage #Needed for paging
 from django.contrib.auth.decorators import login_required  #for Function based Views
@@ -43,7 +42,7 @@ class DifficultyListView(LoginRequiredMixin,ListView):
         return diff_return
     
 
-#@login_required
+@login_required
 #returns Json to interact with datatables JS
 def DifficultyJson(request):
     
@@ -54,7 +53,6 @@ def DifficultyJson(request):
     response = json_datatable_data(
         request,
         Difficulty,
-        "tb_difficulty",
         query,
         ["difficulty_name"]    
     )  
@@ -175,6 +173,185 @@ class SubjectDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "subject/subject_confirm_delete.html"
     context_object_name = "subject_context"
     success_url = reverse_lazy("questions_app:subject_list_url")
+
+
+#----------------------------------------------------------------------------Answers
+class AnswerListView(LoginRequiredMixin, ListView):
+    model = Answer
+    #custom context
+    context_object_name = "answer_list"
+    template_name = "answer/answer_list.html"
+    paginate_by = 5
+    
+@login_required
+#returns Json to interact with datatables JS
+#question_id refers to what has been mapped on URLs.py, must be the same
+def AnswerJson(request,question_id):    
+    response = {}    
+    
+    save_question_id = int(question_id)
+      
+    query = (
+        f"SELECT * FROM tb_question_answers \n"
+        f"WHERE question_answer_id = {save_question_id}")
+            
+    response = json_datatable_data(
+        request,
+        Answer,
+        query,
+        [ "date_created"
+          ,"answer_html_text"
+          ,"correct_answer"
+          ,"active"          
+         ]
+    )
+    
+    return JsonResponse(response)
+
+
+class AnswerDetailView(LoginRequiredMixin, DetailView):
+    model=Answer
+    template_name="answer/answer_detail.html"
+    context_object_name="answer_context"
+    
+    #need contect to fetch parent ID in URL
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["question_context"] = get_object_or_404(Question, pk=self.kwargs["question_id"])
+        return context
+
+class AnswerCreateView(LoginRequiredMixin, CreateView):
+    model=Answer
+    form_class = AnswerForm
+    template_name = "answer/answer_form.html"     
+    #redirect_field_name = "answer/answer_list.html"
+    
+    #as QUestion is parent, must return ID from parent in order to create answer
+    def form_valid(self, form):
+        question = get_object_or_404(Question, pk=self.kwargs["question_id"])
+        form.instance.question = question
+        return super().form_valid(form)  
+    
+    #to redirect to the question father page
+    def get_success_url(self):
+        return reverse_lazy("questions_app:question_detail_url", kwargs={"pk":self.kwargs["question_id"]})
+    
+    #customizing context to render in template
+    #Django default, context for form is named "form"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["answer_form"] = context["form"]
+        #swithch same page between UPDATE or CREATE
+        context["is_update"] = False
+        context["question_context"] = get_object_or_404(Question, pk=self.kwargs["question_id"])
+        return context
+    
+
+class AnswerUpdateView(LoginRequiredMixin,UpdateView):
+    model=Answer
+    form_class=AnswerForm
+    template_name="answer/answer_form.html"
+    context_object_name="answer_context"
+    redirect_field_name="question/question_detail.html"
+
+    #customizing context to render in template
+    #Django default, context for form is named "form"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["answer_form"] = context["form"]
+        #swithch same page between UPDATE or CREATE
+        context["is_update"] = True
+        context["question_context"] = get_object_or_404(Question, pk=self.kwargs["question_id"])
+        return context
+    
+    
+class AnswerDeleteView(LoginRequiredMixin, DeleteView):
+    model=Answer
+    template_name = "answer/answer_confirm_delete.html"
+    context_object_name = "answer_context"
+    success_url = reverse_lazy("questions_app:answer_list_url")
+    
+    #need to fetch Parent ID from URL
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["question_context"] = get_object_or_404(Question,pk=self.kwargs["question_id"])
+        return context
+
+
+#----------------------------------------------------------------------------Question
+class QuestionListView(LoginRequiredMixin, ListView):
+    model = Question
+    #custom_context
+    context_object_name = "question_context"
+    template_name = "question/question_list.html"
+    paginate_by = 5
+    
+@login_required
+#returns json for datatables listing
+def QuestionJson(request):
+    response = {}
+    
+    query = "SELECT * FROM tb_questions"
+    
+    response = json_datatable_data(
+        request,
+        Question,
+        query,
+        [ "date_created",
+          "question_difficulty",
+          "question_subject"
+        ]
+        
+    )
+    
+    return JsonResponse(response)
+
+
+class QuestionDetailView(LoginRequiredMixin, DetailView):
+    model = Question
+    template_name = "question/question_detail.html"
+    context_object_name = "question_context"
+    
+    
+class QuestionCreateView(LoginRequiredMixin, CreateView):
+    model = Question
+    form_class = QuestionForm
+    template_name = "question/question_form.html"
+    
+    redirect_field_name = "question/question_list.html"
+    
+    #customizing context to render in template
+    #Django default, context for form is named "form"   
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["question_form"] = context["form"]
+        # for update/create page
+        context["is_update"] = False
+        return context
+    
+class QuestionUpdateView(LoginRequiredMixin, UpdateView):
+    model = Question
+    form_class = QuestionForm
+    template_name = "question/question_form.html"
+    context_object_name = "question_context"
+    redirect_field_name = "question/question_detail.html"
+    
+    #customizing context to render in template
+    #Django default, context for form is named "form"        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["question_form"] = context["form"]
+        context["is_update"] = True
+        
+        return context
+    
+class QuestionDeleteView(LoginRequiredMixin, DeleteView):
+    model = Question
+    template_name = "question/question_confirm_delete.html"
+    context_object_name = "question_context"
+    success_url = reverse_lazy("questions_app:question_list_url")
+    
+    
 
 
 

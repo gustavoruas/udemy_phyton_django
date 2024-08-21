@@ -5,7 +5,11 @@
   <table id="myTable" class="table table-bordered">
     <thead>
       <tr class="table-cont-header">
+        <th>Date Created</th>
+        <th>Description</th>
         <th>Difficulty</th>
+        <th>Subject</th>
+        <th>Active</th>
         <th class="action_column">action</th>
       </tr>
     </thead>
@@ -18,8 +22,8 @@
 
 <a
   class="btn btn-default"
-  href="{% url 'questions_app:difficulty_create_url' %}"
-  >Create Difficulty</a>
+  href="{% url 'questions_app:question_create_url' %}"
+  >Create Question</a>
 
 
 {% endblock %} 
@@ -31,12 +35,19 @@
     $("#myTable").DataTable({
       processing: true,
       serverSide: true,
-      ajax: "{% url 'questions_app:difficulty_list_json_url' %}",
-      columns: [{ data: "difficulty_name" }, { data: "action" }],
+      ajax: "{% url 'questions_app:question_list_json_url' %}",
+      columns: [
+        { data: "date_created" }, 
+        { data: "description" }, 
+        { data: "question_difficulty" }, 
+        { data: "question_subject" },
+        { data: "active" },
+        { data: "action" },      
+      ],
       columnDefs: [ 
         //disables sorting for specific columns
-        {orderable: false, targets: [1] }, 
-        {searcheble: false, targets: [1] }
+        {orderable: false, targets: [1,2,3,4,5] }, 
+        {searcheble: false, targets: [2,3,4,5] }
       ]
     });
   });

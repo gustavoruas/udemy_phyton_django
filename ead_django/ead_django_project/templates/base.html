@@ -41,12 +41,11 @@
 
     <link rel="stylesheet" href="{% static '/CSS/main_menu.CSS'%}">
     <link rel="stylesheet" href="{% static '/CSS/tables.CSS'%}">
+    <link rel="stylesheet" href="{% static '/CSS/question_content.CSS'%}">
 
     <!--Importing datatables JS plugin https://datatables.net/ -->
-    <link href="{% static '/DataTables/datatables.min.css' %}" rel="stylesheet"> 
-    <script src="{% static '/DataTables/datatables.min.js' %}"></script>
-
-
+    <link href="{% static '/DataTables/datatables.css' %}" rel="stylesheet"> 
+    <script src="{% static '/DataTables/datatables.js' %}"></script>
 
   </head>
 
@@ -72,6 +71,8 @@
           <ul role="menu" class="dropdown-menu dropdown_cust1">
             <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:difficulty_list_url' %}">Difficulty</a></li>
             <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:subject_list_url' %}">Subject</a></li>
+            <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:answer_list_url' %}">Answer</a></li>
+            <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:question_list_url' %}">Question</a></li>
             <li class="divider"></li>
             <li role="presentation"><a role="menuitem" href="#">Separated link</a></li>
           </ul>

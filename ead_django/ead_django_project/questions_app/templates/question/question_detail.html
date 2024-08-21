@@ -1,0 +1,109 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+<h2>Question View</h2>
+<div class="table-responsive">
+  <table class="table ">
+    <tr>
+      <td colspan="2">
+        <label for="">Question:</label>
+        {{question_context.description}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="">Difficulty:</label>
+        {{question_context.question_difficulty.difficulty_name}}
+      </td>
+      <td>
+        <label for="">Subject:</label>
+        {{question_context.question_subject.subject_name}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="">Date Created:</label>
+        {{question_context.date_created | date}}
+      </td>
+      <td>
+        <label for="">Is Active:</label>
+        {{question_context.active}}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="">
+        <label for="">Question Content:</label>
+        <div class="quest-content-detail">
+          {{question_context.question_html_text | safe}}
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>
+  <a
+    class="btn btn-default"
+    href="{% url 'questions_app:question_update_url' pk=question_context.question_id%}"
+    >Update</a>
+  <a
+    class="btn btn-danger"
+    href="{% url  'questions_app:question_delete_url' pk=question_context.question_id%}"
+    >Delete</a>
+  <a class="btn btn-default" href="{% url 'questions_app:question_list_url' %}"
+    >Back to List</a>
+</p>
+
+
+<div class="table-responsive">
+  <table id="myTable" class="display compact">
+    <thead>
+      <tr class="table-cont-header">
+        <th>Date Created</th>
+        <th>Answer Content</th>
+        <th>Is Correct</th>
+        <th>Active</th>
+        <th>Question</th>
+        <th class="action_column">action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <td></td>
+      <td class="action_column"></td>
+    </tbody>
+  </table>
+</div>
+
+<a
+  class="btn btn-default"
+  href="{% url 'questions_app:answer_create_url' question_id=question_context.question_id %}"
+  >Create Answer</a>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  //Initializing table API for every table with same ID
+  $(document).ready(function () {
+    $("#myTable").DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{% url 'questions_app:answer_list_json_url2' question_id=question_context.question_id %}",
+      columns: [{ data: "date_created" }, 
+        { data: "answer_html_text" }, 
+        { data: "correct_answer" }, 
+        { data: "active" }, 
+        { data: "question_answer" },
+        { data: "action" },      
+      ],
+      columnDefs: [ 
+        //disables sorting for specific columns
+        {orderable: false, targets: [1,2,3,4,5] }, 
+        {searcheble: false, targets: [2,3,4,5] }
+      ]
+    });
+  });
+</script>
+
+{% endblock %}
+

@@ -1,10 +1,17 @@
 import math
+from django.db import connection
+
+#debug function for SQLs   
+def print_raw_query(query, params):   
+    formatted_query = query % tuple(params)
+    print("*********DEBUG SQL**********")
+    print(formatted_query)
+
 
 #returns dictionary {}
 def json_datatable_data(
     request,
     class_object,
-    table_name,
     query,
     search_columns    
 ):
@@ -16,12 +23,14 @@ def json_datatable_data(
     #this acquires the get parameter search, fro mdatatables
     search_word = request.GET.get("search[value]")
     
-    if search_word:        
+    if search_word:    
         
-        query_search = (
-            ("SELECT * FROM {} ").format(table_name) + " \n"
-            "WHERE 1=1 "
-        )  
+        #validate if first the query already contains where
+        if "where" not in query.lower():
+            query_search = (
+                query + " \n"                
+                "WHERE 1=1 "
+            )                 
         
         loop_num = 0
         for iter_col in search_columns:
@@ -36,7 +45,8 @@ def json_datatable_data(
                 
                 if loop_num == 1:
                     query_search = (query_search +
-                        "AND lower("+ iter_col +") LIKE lower(%s) \n"               
+                        "AND ( \n"
+                        "lower("+ iter_col +") LIKE lower(%s) \n"               
                     ) 
                     
                 #last element of list
@@ -53,6 +63,8 @@ def json_datatable_data(
         #looping amount of times for parameter list
         query_param_list =[]
         query_param_list = [f'%{search_word}%' for iteration in range(len(search_columns))] 
+        
+        print_raw_query(query_search, query_param_list)
         
         #SQL use of % must be done differently
         objects = class_object.objects.raw(query_search, query_param_list)
