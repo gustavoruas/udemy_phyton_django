@@ -43,7 +43,7 @@ SECRET_KEY = 'django-insecure-mc_$g!xj*jd3%fmzuh66!#9dig8%^&&rjnuai_+m4086f_07lf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
@@ -106,24 +106,32 @@ DATABASES = {
     }
 }
 
+CUSTOM_DIR_DATABASE = Path.joinpath(BASE_DIR,"db.sqlite3")    
 
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+if DEBUG :
+    #if debug enabled, password creagtion can be anything, simple rules
+    AUTH_PASSWORD_VALIDATORS = [
+        {
+            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        },
+    ]    
+else:
+    # Password validation
+    # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+    AUTH_PASSWORD_VALIDATORS = [
+        {
+            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        },
+    ]
 
 #Definition of custom authentication for project
 AUTH_USER_MODEL = "user_auth_app.CustomUser"
@@ -138,6 +146,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+# specifying the whole system DATE format
+DATE_FORMAT = '%d-%m-%Y'
+
+DATETIME_FORMAT = '%d-%m-%Y %H:%M'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -155,8 +168,10 @@ INTERNAL_IPS = [
 ]
 
 #enabling Logging
-logger = logging.getLogger('django.db.backends')
-logger.setLevel(logging.DEBUG)
+#logger = logging.getLogger('django.db.backends')  loggs only for Database events
+logger = logging.getLogger()   # logs for all
+logger.setLevel(logging.DEBUG)  #only one at a time may be defined
+#logger.setLevel(logging.ERROR)
 logger.addHandler(logging.StreamHandler())
 
 

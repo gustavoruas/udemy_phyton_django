@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="table-responsive">
+    <table id="myTable" class="table table-bordered">
+      <thead>
+        <tr class="table-cont-header">
+          <th>Date Created</th>
+          <th>Date Completed</th>
+          <th>Difficulty</th>
+          <th>Subject</th>
+          <th>status</th>
+          <th class="action_column">action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <td></td> 
+        <td></td>  
+        <td></td>
+        <td></td>
+        <td></td>    
+        <td class="action_column"></td>
+      </tbody>
+    </table>
+  </div>
+
+  <a class="btn btn-default" href="{% url 'questions_app:assessment_create_url'%}">
+    Create Assessment
+  </a>
+
+{% endblock content %}
+
+{% block javascript %}
+
+<script>
+    //Initializing table API for every table with same ID
+    $(document).ready(function () {
+      $("#myTable").DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{% url 'questions_app:assessment_list_json_url' %}",
+        columns: [
+          { data: "date_created"  }, 
+          { data: "date_completed" },
+          { data: "difficulties" },
+          { data: "subjects" },
+          { data: "status" },  
+          { data: "action" },  
+        ],
+        columnDefs: [ 
+          //disables sorting for specific columns
+          {orderable: false, targets: [2] }, 
+          {searchable: false }
+        ]
+      });
+    });
+  </script>
+
+{% endblock javascript %}
+
+

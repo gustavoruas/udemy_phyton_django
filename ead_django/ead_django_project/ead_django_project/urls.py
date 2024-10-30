@@ -29,6 +29,12 @@ urlpatterns = [
     path(r'accounts/',include("django.contrib.auth.urls")),
     #Adding tinyMCE via django
     path(r'tinymce/', include('tinymce.urls')),
-    # enabling URL for Debug toolbar
-    path(r'^__debug__/', include('debug_toolbar.urls')),
 ]
+
+#Enabling debug tab if enabled in settings.py
+if settings.DEBUG:
+    import debug_toolbar
+    
+    urlpatterns = [
+        path(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

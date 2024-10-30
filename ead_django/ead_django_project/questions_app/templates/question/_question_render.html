@@ -1,0 +1,20 @@
+<div class="">
+
+    <p>Question {{forloop.counter}}</p>
+
+    {{question.question_html_text|safe}}
+
+    {% for answers in question.question_answers.all %}
+
+        <div class="form-group">
+            <div class="radio answer-row-spacing">
+                <label>
+                    <input type="radio" name="questionradio_{{question.question_id}}" id="{{answers.answer_id}}"
+                    value="{{answers.answer_id}}">
+                    {{answers.answer_html_text|safe}}
+                </label>
+            </div>
+        </div>
+
+    {% endfor %}
+</div>

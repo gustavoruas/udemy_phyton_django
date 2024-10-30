@@ -21,15 +21,16 @@ urlpatterns = [
     
     #----------------------------------------------------------Answer URLS
     # as it is a child of Question, to be inlet written in question, must reference father as a parameter
-    #in this case, with question_id
-    path(r'answers/',question_views.AnswerListView.as_view(),name="answer_list_url"),
+    #in this case, with question_id    
     path(r'questions/<int:question_id>/answers/<int:pk>', question_views.AnswerDetailView.as_view(), name="answer_detail_url"),
     path(r'questions/<int:question_id>/answers/new/', question_views.AnswerCreateView.as_view(),name="answer_create_url"),
     #question_id is used as a reference to father object
     path(r'questions/<int:question_id>/answers/update/<int:pk>', question_views.AnswerUpdateView.as_view(),name="answer_update_url"),
     path(r'questions/<int:question_id>/answers/delete/<int:pk>', question_views.AnswerDeleteView.as_view(),name="answer_delete_url"), 
     #question_id referes as a mapping name, so it can be fetched in the JsonView function
-    path(r'questions/<int:question_id>/answers/json',question_views.AnswerJson, name="answer_list_json_url2"),
+    path(r'questions/<int:question_id>/answers/json',question_views.AnswerJson, name="answer_list_json_url"),
+    
+    path(r'questions/render_test',question_views.render_test1, name="question_render1"),
             
     #----------------------------------------------------------Question URLS
     path(r'questions/',question_views.QuestionListView.as_view(),name="question_list_url"),
@@ -39,6 +40,13 @@ urlpatterns = [
     path(r'questions/delete/<int:pk>', question_views.QuestionDeleteView.as_view(),name="question_delete_url"),
     path(r'questions/json',question_views.QuestionJson, name="question_list_json_url"),
     
+    #----------------------------------------------------------Assessment URLS
+    path(r'assessments/',question_views.AssessmentListView.as_view(), name="assessment_list_url"),
+    path(r'assessments/<int:pk>', question_views.AssessmentDetailView.as_view(), name="assessment_detail_url"),
+    path(r'assessments/new/', question_views.AssessmentCreateView.as_view(),name="assessment_create_url"),
+    path(r'assessments/update/<int:pk>', question_views.AssessmentUpdateView.as_view(),name="assessment_update_url"),
+    path(r'assessments/delete/<int:pk>', question_views.AssessmentDeleteView.as_view(),name="assessment_delete_url"),
+    path(r'assessments/json',question_views.AssessmentJson, name="assessment_list_json_url"),
     
 ]
 

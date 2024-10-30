@@ -5,10 +5,18 @@
       <thead>
         <tr class="table-cont-header">
           <td>
+
+            {% if request.GET.orderby %}
+            <a
+              href="{% url 'questions_app:subject_list_url' %}"
+              >Subject Name</a
+            >
+            {% else %}
             <a
               href="{% url 'questions_app:subject_list_url' %}?orderby=subject_name"
               >Subject Name</a
             >
+            {% endif %}
           </td>
           <td class="action_column">Action</td>
         </tr>
@@ -38,9 +46,8 @@
 
     <!--Implementing pagination in template-->
     <!-- this reuses code via inject, with a HTML page - commenting as using DataTable plugin -->
-    {% comment "" %}
     {% include "generic/_pagination_generic.html" %}
-    {% endcomment %}
+
 
   </div>
 

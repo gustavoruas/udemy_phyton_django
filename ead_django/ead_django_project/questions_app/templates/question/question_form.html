@@ -14,6 +14,9 @@
                 {% endfor %}
             {% endfor %}
         </ul>
+        {% if question_form.non_field_errors  %}
+            {{question_form.non_field_errors}}     
+        {% endif %}
     </div>
     {% endif %}
 
@@ -44,6 +47,19 @@
 
 </div>
 
-
-
 {% endblock content %}
+
+{% block javascript %}
+<script>    
+    $(document).ready(function(){
+        //iterateble fields get naming from model class starting with id_<<class_attribute>>
+        new DateTime(document.getElementById('id_date_created'), {
+            format: 'DD-MM-YYYY HH:mm'
+        });        
+    }
+    )
+
+</script>
+
+{% endblock javascript %}
+

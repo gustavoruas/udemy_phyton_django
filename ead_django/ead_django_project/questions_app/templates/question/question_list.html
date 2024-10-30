@@ -37,17 +37,17 @@
       serverSide: true,
       ajax: "{% url 'questions_app:question_list_json_url' %}",
       columns: [
-        { data: "date_created" }, 
+        { data: "date_created" , width: '150px' }, 
         { data: "description" }, 
-        { data: "question_difficulty" }, 
-        { data: "question_subject" },
+        { data: "difficulty_name" }, 
+        { data: "subject_name" },
         { data: "active" },
         { data: "action" },      
       ],
       columnDefs: [ 
         //disables sorting for specific columns
-        {orderable: false, targets: [1,2,3,4,5] }, 
-        {searcheble: false, targets: [2,3,4,5] }
+        {orderable: false, targets: [1,4,5] }, 
+        {searchable: false, targets: [2,3,4,5] }
       ]
     });
   });

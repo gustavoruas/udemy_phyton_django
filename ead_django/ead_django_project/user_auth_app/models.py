@@ -62,7 +62,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = "Users"
  
     def __str__(self):
-        return self.email.split("@")[0]  
+        #return self.email.split("@")[0] 
+        return self.email
     
     def get_full_name(self, input_var):
         return self.name + "full name test" + str(input_var)

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Assessment View</h2>
+<div class="table-responsive">
+  <table class="table ">
+    <tr>
+      <td colspan="2">
+        <label for="">Assessment ID:</label>
+        {{assessment_context.assessment_id}}
+      </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+          <label for="">Score:</label>
+          {{assessment_context.score}}
+        </td>
+      </tr>    
+    <tr>
+      <td>
+        <label for="">Difficulty:</label>
+        {{assessment_context.difficulties}}
+      </td>
+      <td>
+        <label for="">Subject:</label>
+        {{assessment_context.subjects}}
+      </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="">Status:</label>
+            {{assessment_context.status}}
+        </td>
+        <td>
+            <label for="">Status:</label>
+            {{assessment_context.assigned_to}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="">Created:</label>
+            {{assessment_context.date_created}}
+        </td>
+        <td>
+            <label for="">Completed:</label>
+            {{assessment_context.date_completed}}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <p>
+                <a
+                  class="btn btn-default"
+                  href="{% url 'questions_app:assessment_update_url' pk=assessment_context.assessment_id%}"
+                  >Update</a>
+                <a
+                  class="btn btn-danger"
+                  href="{% url  'questions_app:assessment_delete_url' pk=assessment_context.assessment_id%}"
+                  >Delete</a>
+                <a class="btn btn-default" href="{% url 'questions_app:assessment_list_url' %}"
+                  >Back to List</a>            
+        </td>
+    </tr>
+</table>
+</div>
+
+{% endblock content %}
+
+

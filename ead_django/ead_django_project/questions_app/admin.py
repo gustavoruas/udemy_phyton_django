@@ -14,4 +14,6 @@ admin.site.register(question_models.Difficulty)
 admin.site.register(question_models.Subject)
 admin.site.register(question_models.Question)
 admin.site.register(question_models.Answer, CustomAnswerAdmin)
+admin.site.register(question_models.Assessment)
+admin.site.register(question_models.AssessmentQuestions)
 

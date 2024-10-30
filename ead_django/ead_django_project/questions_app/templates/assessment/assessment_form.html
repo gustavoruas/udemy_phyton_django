@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container col-xs-12">
+
+    {% if assessment_form.errors %}
+    <div class="alert alert-danger mt-1">
+        <strong>Oops! There was an error:</strong>
+        <ul>
+            {% for field in assessment_form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+        {% if assessment_form.non_field_errors  %}
+            {{assessment_form.non_field_errors}}     
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {# {% bootstrap_form customuser_form error_types="none" layout='inline' %} #}
+        {% for field  in assessment_form  %}
+        <p> 
+        <label for="{{ field.id_for_label }}">
+            
+            {{ field.label }} {{field}}
+            {{ form.media }} {# this is required for load tinyMCE #}
+        </label>
+        </p>                  
+        {% endfor %}        
+
+        {% if is_update  %}
+        <input type="submit" class="btn btn-default" value="Update">
+        {% else %}
+        <input type="submit" class="btn btn-default" value="Create">
+        {% endif %}
+        <a href="{% url 'questions_app:assessment_list_url' %}" class="btn btn-default">Back</a>
+
+    </form>    
+
+</div>
+
+
+{% endblock content %}
+
+{% block javascript %}
+<script>    
+    $(document).ready(function(){
+        //iterateble fields get naming from model class starting with id_<<class_attribute>>
+        new DateTime(document.getElementById('id_date_created'), {
+            format: 'DD-MM-YYYY HH:mm'
+        });        
+    }
+    )
+
+</script>
+
+{% endblock javascript %}

@@ -1,8 +1,16 @@
 from django.urls import reverse
 import inspect
+from django.conf import settings
+import logging
+
+def get_fk_id(fk_object, attribute_name, default_return_value="N/A"):
+    #before returning field, validate attribute FK if exists, then return field
+    #self.question_subject.subject_id if self.question_subject else 'N/A'
+    return getattr(fk_object, attribute_name, default_return_value ) if fk_object else default_return_value
+
 
 def action_delete_column(
-    edit_url_string,
+    edit_url_string, 
     delete_url_string,
     class_attrs_dict
 ):
@@ -36,6 +44,57 @@ def action_delete_column(
     return class_attrs_dict
     
     
+#SQLite straight connection to DB, to create SQL function, as in SQLite functions are not available.
+# Function to replace animal IDs with their corresponding names
+def replace_subjects_by_id(conn, pipe_separated_ids):
+    
+    #new instance for logger
+    logger = logging.getLogger(__name__)
+    
+    try:   
+    
+        # Split the input string by '|'
+        subject_ids = pipe_separated_ids.split('|')
+
+        # Create a query to fetch corresponding animal names
+        query = "SELECT GROUP_CONCAT(subject_name, '; ') FROM tb_subject WHERE subject_id IN ({})"
+        placeholders = ','.join('?' * len(subject_ids))
+        query = query.format(placeholders)
+
+        # Execute the query and fetch the result
+        cursor = conn.cursor()
+        cursor.execute(query, subject_ids)
+        result = cursor.fetchone()
+
+        # Return the animal names as a pipe-separated string
+        return result[0] if result else None
+    
+    except Exception as e:
+        logger.debug("models_functions.replace_subjects_by_id.error:%s", e)
+        return None
+        
+def replace_difficulties_by_id(conn, pipe_separated_ids):
+    logger = logging.getLogger(__name__)
+    
+    try:
+        difficulty_ids = pipe_separated_ids.split("|")
+        
+        query = "SELECT GROUP_CONCAT(difficulty_name, '; ') FROM tb_difficulty WHERE difficulty_id IN ({})"
+        placeholders= ','.join('?' * len(difficulty_ids))
+        query = query.format(placeholders)
+        
+        cursor = conn.cursor()
+        cursor.execute(query,difficulty_ids)
+        result = cursor.fetchone()
+        
+        return result[0] if result else None
+        
+    except Exception as e:
+        logger.debug("models.functions.replace_difficulties_by_id.error:%s", e)
+        return None
+        
+    
+
 
 
 

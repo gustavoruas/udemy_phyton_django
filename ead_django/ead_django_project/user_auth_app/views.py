@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
-from .forms import CustomUserCreateForm
+from .forms import CustomUserCreateForm, CustomPasswordChangeForm
 from .models import Role
+from django.contrib.auth.views import PasswordChangeView
 # Needed to force login into accessing URLS
 from django.contrib.auth.decorators import login_required  #for Function based Views
 from django.contrib.auth.mixins import LoginRequiredMixin  #for Class based Views
@@ -37,7 +38,20 @@ def signup_user(request):
     
     return render(request,"signup.html",context_form)
         
-            
+
+#Customizing form must be called by view, must be logged in to access with LoginRequiredMixin
+class CustomPasswordChangeView(LoginRequiredMixin,PasswordChangeView):
+    template_name = "change_password.html"
+    form_class = CustomPasswordChangeForm
+    success_url = reverse_lazy("index_url")
+ 
+    #customizing context to render in template
+    #Django default, context for form is named "form"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["password_form"] = context["form"]
+        return context 
+       
 
 
 

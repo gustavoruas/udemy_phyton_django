@@ -52,18 +52,18 @@
     >Delete</a>
   <a class="btn btn-default" href="{% url 'questions_app:question_list_url' %}"
     >Back to List</a>
+  <a class="btn btn-default" href="{% url 'questions_app:question_render1' %}"
+    >Test Render</a>
 </p>
 
 
 <div class="table-responsive">
-  <table id="myTable" class="display compact">
+  <table id="answer_table" class="display compact">
     <thead>
       <tr class="table-cont-header">
         <th>Date Created</th>
         <th>Answer Content</th>
         <th>Is Correct</th>
-        <th>Active</th>
-        <th>Question</th>
         <th class="action_column">action</th>
       </tr>
     </thead>
@@ -85,21 +85,20 @@
 <script>
   //Initializing table API for every table with same ID
   $(document).ready(function () {
-    $("#myTable").DataTable({
+    $("#answer_table").DataTable({
       processing: true,
-      serverSide: true,
-      ajax: "{% url 'questions_app:answer_list_json_url2' question_id=question_context.question_id %}",
-      columns: [{ data: "date_created" }, 
-        { data: "answer_html_text" }, 
-        { data: "correct_answer" }, 
-        { data: "active" }, 
-        { data: "question_answer" },
-        { data: "action" },      
+      serverSide: false, //no need for serverside if no searching or paging
+      searching:  false,
+      paging:     false,
+      ajax: "{% url 'questions_app:answer_list_json_url' question_id=question_context.question_id %}",
+      columns: [{ data: "date_created", width: '150px' }, 
+        { data: "answer_html_text"}, //Specify width for certain column in percentage
+        { data: "correct_answer", width:'90px' }, 
+        { data: "action" }    
       ],
       columnDefs: [ 
         //disables sorting for specific columns
-        {orderable: false, targets: [1,2,3,4,5] }, 
-        {searcheble: false, targets: [2,3,4,5] }
+        {orderable: false, targets: [1,2,3] } ,      
       ]
     });
   });

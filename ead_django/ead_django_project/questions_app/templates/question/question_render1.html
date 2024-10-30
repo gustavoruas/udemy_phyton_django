@@ -1,0 +1,31 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+Test page
+<br>
+
+<form method="POST">
+    {% csrf_token %}
+    {% for question  in questions_assessment_test.all  %}
+
+        {% include "question/_question_render.html" %} 
+
+    {% endfor %}
+    <input type="submit" class="btn btn-default" value="Post Results">
+
+</form>
+
+<a
+class="btn btn-default"
+href="{% url 'questions_app:question_detail_url' pk=question_render_cont.question_id%}"
+>Back</a>
+
+
+{% endblock content %}
+
+
+
+
+
+

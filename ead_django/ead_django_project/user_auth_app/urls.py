@@ -14,5 +14,10 @@ urlpatterns = [
     path(r'logout/',auth_views.LogoutView.as_view(),name="logout_url"),
     #path(r'signup/',user_auth_app_views.Signup.as_view(), name="signup_url"),
     path(r'signup/',user_auth_app_views.signup_user, name="signup_url"),
+    path(r'change_password/'
+         ,user_auth_app_views.CustomPasswordChangeView.as_view(template_name="change_password.html",
+                                               success_url="/"
+                                            )
+         ,name="change_password_url"),
     
 ]

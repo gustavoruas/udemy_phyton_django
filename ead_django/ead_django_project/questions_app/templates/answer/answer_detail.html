@@ -9,12 +9,8 @@
   </p>
   <p>
     
-    <a class="btn btn-default" href="{% url 'questions_app:answer_update_url'   
-      question_id=question_context.question_id  
-      pk=answer_context.answer_id %}">Update</a>
-    <a class="btn btn-danger" href="{% url  'questions_app:answer_delete_url'   
-      question_id=question_context.question_id  
-      pk=answer_context.answer_id %}">Delete</a>
+    <a class="btn btn-default" href="{% url 'questions_app:answer_update_url' question_id=answer_context.question_answer.question_id pk=answer_context.answer_id %}">Update</a>
+    <a class="btn btn-danger" href="{% url  'questions_app:answer_delete_url' question_id=answer_context.question_answer.question_id pk=answer_context.answer_id %}">Delete</a>
     <a class="btn btn-default" href="{% url 'questions_app:question_detail_url' pk=answer_context.question_answer.question_id %}">Back to Question</a>
 
   </p>

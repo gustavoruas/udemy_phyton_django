@@ -47,6 +47,11 @@
     <link href="{% static '/DataTables/datatables.css' %}" rel="stylesheet"> 
     <script src="{% static '/DataTables/datatables.js' %}"></script>
 
+    <!--Importing Datatables dependencies -->
+    <script src="{% static '/DataTables/dependencies/dataTables.dateTime.min.js' %}"></script>
+    <script src="{% static '/DataTables/dependencies/moment.min.js' %}"></script>
+
+
   </head>
 
 <body>
@@ -71,19 +76,25 @@
           <ul role="menu" class="dropdown-menu dropdown_cust1">
             <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:difficulty_list_url' %}">Difficulty</a></li>
             <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:subject_list_url' %}">Subject</a></li>
-            <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:answer_list_url' %}">Answer</a></li>
             <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:question_list_url' %}">Question</a></li>
             <li class="divider"></li>
-            <li role="presentation"><a role="menuitem" href="#">Separated link</a></li>
+            <li role="presentation"><a role="menuitem" href="{% url 'questions_namespace:assessment_list_url' %}">Assessments</a></li>
           </ul>
         </li>
 
-        <!-- custom template tag,  -->      
+        <!-- custom template tag, to check roles from users  -->      
         {% has_role_from_list user.roles.all "admin_role" as is_admin %}
         
-        {% if is_admin  %}
-        <li><a href="/admin/">Admin</a></li> 
-        {% endif %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Tools<b class="caret"></b></a>
+          <ul role="menu" class="dropdown-menu dropdown_cust1">
+            <li role="presentation"><a role="menuitem" href="{% url 'user_auth_namespace:change_password_url' %}">Change Password</a></li>
+            <li class="divider"></li>
+            {% if is_admin  %}
+            <li><a href="/admin/">Admin</a></li> 
+            {% endif %}
+          </ul>
+        </li>            
           
         <li><a href="{% url "user_auth_namespace:logout_url" %}">Logout</a></li>   
         

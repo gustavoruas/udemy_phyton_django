@@ -3,7 +3,30 @@
 {% block content %}
 
 <div>
-    <h2>Delete {{answer_context.answer_id}} ?</h2>
+    <h2>Delete Answer Id {{answer_context.answer_id}} ?</h2>
+    <div class="table-responsive">
+        <table class="table ">
+          <tr>
+            <td>
+              <label for="">Date Created:</label>
+              {{answer_context.date_created | date}}
+            </td>
+            <td>
+              <label for="">Is Active:</label>
+              {{answer_context.active}}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="">
+              <label for="">Answer Content:</label>
+              <div class="quest-content-detail">
+                {{answer_context.answer_html_text | safe}}
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
 
     <form method="POST">
         {% csrf_token %}

@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from .models import CustomUser
 from django import forms
 from django.core import validators
@@ -31,5 +31,25 @@ class CustomUserCreateForm(forms.Form, UserCreationForm ):
         )
         self.fields["name"].label = "Name"
 
-  
+
+#Custom password change form
+class CustomPasswordChangeForm(PasswordChangeForm):
+
+    #old_password = forms.CharField(
+    #    label="New Password",
+    #    widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    #)
+#
+    #new_password1 = forms.CharField(
+    #    label="New Password",
+    #    widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    #)
+    #
+    #new_password2 = forms.CharField(
+    #    label="Confirm New Password",
+    #    widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    #)
+    
+    class Meta:        
+        fields = ("new_password1","new_password2")
 

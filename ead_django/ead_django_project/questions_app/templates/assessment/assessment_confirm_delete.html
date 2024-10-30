@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+  <h2>Delete Assessment Id: {{assessment_context.assessment_id}} ?</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-danger" value="Delete">
+
+    <a class="btn btn-primary" href="{% url 'questions_app:assessment_detail_url' pk=assessment_context.assessment_id %}">
+        Back
+    </a>
+
+  </form>
+
+</div>
+
+
+
+{% endblock content %}
