@@ -26,6 +26,13 @@ def signup_user(request):
             #Adding a role to users, using related_name attribute in ManyToManyField
             if custom_user.user_id is not None and custom_user.user_id != "":  
                 custom_user.roles.add(standard_role)
+                
+                #if it is staff, add as ateacher, otherwise, as student.
+                if custom_user.is_staff:
+                    custom_user.roles.add(Role.objects.get(name="teacher_role"))
+                else:
+                    custom_user.roles.add(Role.objects.get(name="student_role"))
+                
                 custom_user.save()
             
             #redirect to login if user created successfully

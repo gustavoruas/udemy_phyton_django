@@ -16,7 +16,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE","ead_django_project.settings")
 
 import django
 
-django.setup()
+#django.setup()
 
 import random
 from questions_app.models import Answer, Difficulty, Question, Subject

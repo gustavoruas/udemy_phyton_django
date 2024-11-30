@@ -116,11 +116,12 @@ def json_datatable_data(
         #debug
         #data =[]
         #for obj in objects:
-        #    try:
+        #    try:        
+        #        logger.debug("***inner:json_datatable_data:" + str(obj.to_dict_json()))
         #        temp = obj.to_dict_json()
         #        data.append(temp)
-        #    except AttributeError as e:
-        #        print(f"Error processing object {obj.question_id}: {e}")
+        #    except Exception as e:
+        #        print(f"Error processing object {obj}: {e}")
         #        continue
 
 

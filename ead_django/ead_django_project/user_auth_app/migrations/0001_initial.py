@@ -13,6 +13,7 @@ def create_initial_roles(apps,schema_editor):
     Role.objects.create(name="admin_role", is_active=True)
     Role.objects.create(name="standard_user", is_active=True)
     Role.objects.create(name="teacher_role", is_active=True)
+    Role.objects.create(name="student_role", is_active=True)
 
 class Migration(migrations.Migration):
 

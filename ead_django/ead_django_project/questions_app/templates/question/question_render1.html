@@ -1,8 +1,21 @@
-{% extends "base.html" %} 
+<html>
+{% include "base_head.html" %}
 
 {% block content %}
 
-Test page
+<body>
+<div class="container-fluid">
+{% if errors %}
+<div class="alert alert-danger mt-1">
+    <strong>Oops! There was an error:</strong>
+    <ul>
+        {% for error in errors %}
+                <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
 <br>
 
 <form method="POST">
@@ -17,13 +30,13 @@ Test page
 </form>
 
 <a
-class="btn btn-default"
-href="{% url 'questions_app:question_detail_url' pk=question_render_cont.question_id%}"
->Back</a>
+class="btn btn-default" onclick="check_close_window();">Back</a>
 
 
 {% endblock content %}
-
+</div>
+</body>
+</html>
 
 
 

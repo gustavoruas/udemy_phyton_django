@@ -29,9 +29,7 @@ urlpatterns = [
     path(r'questions/<int:question_id>/answers/delete/<int:pk>', question_views.AnswerDeleteView.as_view(),name="answer_delete_url"), 
     #question_id referes as a mapping name, so it can be fetched in the JsonView function
     path(r'questions/<int:question_id>/answers/json',question_views.AnswerJson, name="answer_list_json_url"),
-    
-    path(r'questions/render_test',question_views.render_test1, name="question_render1"),
-            
+                
     #----------------------------------------------------------Question URLS
     path(r'questions/',question_views.QuestionListView.as_view(),name="question_list_url"),
     path(r'questions/<int:pk>', question_views.QuestionDetailView.as_view(), name="question_detail_url"),
@@ -47,6 +45,9 @@ urlpatterns = [
     path(r'assessments/update/<int:pk>', question_views.AssessmentUpdateView.as_view(),name="assessment_update_url"),
     path(r'assessments/delete/<int:pk>', question_views.AssessmentDeleteView.as_view(),name="assessment_delete_url"),
     path(r'assessments/json',question_views.AssessmentJson, name="assessment_list_json_url"),
+    
+    
+    path(r'assessments/render_test/<int:pk>',question_views.render_test1, name="question_render1"),    
     
 ]
 

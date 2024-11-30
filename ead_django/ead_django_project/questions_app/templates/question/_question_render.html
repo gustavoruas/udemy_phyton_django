@@ -1,20 +1,51 @@
+{# to import custom {} tags into all pages#. Needs to be loaded in every page used #}
+{% load question_app_tags %}
+
 <div class="">
+    
+    <h4 id="quest_header_{{question.question_id}}" class="question-header">Question {{forloop.counter}}</h4>
 
-    <p>Question {{forloop.counter}}</p>
-
-    {{question.question_html_text|safe}}
+    <p class="text-justify">
+        {{question.question_html_text|safe}}
+    </p>
 
     {% for answers in question.question_answers.all %}
 
+    
         <div class="form-group">
             <div class="radio answer-row-spacing">
-                <label>
-                    <input type="radio" name="questionradio_{{question.question_id}}" id="{{answers.answer_id}}"
-                    value="{{answers.answer_id}}">
+                <label>        
+                    <input type="radio" 
+                    name="questionradio_{{question.question_id}}" 
+                    id="{{answers.answer_id}}"
+                    value="{{answers.answer_id}}"
+{% comment "" %}
+will check the radio box from previous request.POST data
+ called as context submitted_data. template validates same Type as well, so must convert to STR()
+{% endcomment %}
+{% with "questionradio_"|concat_to_str:question.question_id as question_key %}
+{% if submitted_data %}
+    {% if submitted_data|get_dict_item:question_key == answers.answer_id|stringformat:"s" %}
+    checked
+    {% endif %}
+{% endif %}                
+{% endwith %}                   
+
+                    >                    
                     {{answers.answer_html_text|safe}}
-                </label>
+                </label> 
+
             </div>
         </div>
+
+        <!-- changes colour of header of each question-->
+        <script>
+            update_header_answer_color("quest_header_{{question.question_id}}"
+                ,"questionradio_{{question.question_id}}" 
+                , "question-header-selected");
+        </script>
+        
+    
 
     {% endfor %}
 </div>

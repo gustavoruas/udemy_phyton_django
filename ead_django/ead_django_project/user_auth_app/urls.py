@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views as user_auth_app_views
+from django.views.generic import TemplateView
 
 app_name = "user_auth_app"
 
@@ -19,5 +20,7 @@ urlpatterns = [
                                                success_url="/"
                                             )
          ,name="change_password_url"),
+    #directing straight to a HTML page, without calling a class View, using TemplateView
+    path(r'permission_denied/', TemplateView.as_view(template_name="permission_denied.html"),name="permission_denied")
     
 ]

@@ -1,7 +1,4 @@
 from django.apps import AppConfig
-import sqlite3
-from django.conf import settings
-from questions_app.aux_library import json_datatables, models_functions
 
 
 class QuestionsAppConfig(AppConfig):

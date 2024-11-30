@@ -239,7 +239,12 @@ class Assessment(models.Model):
     )
     
     date_created = models.DateTimeField(default=datetime.datetime.today, null=False)
-    date_completed = models.DateTimeField(null=True)
+    date_completed   = models.DateTimeField(null=True)
+    
+    date_to_complete = models.DateTimeField(
+        default=(datetime.datetime.today()+datetime.timedelta(days=10)), # 10 days ahead 
+        null=False
+        )
     
     class Meta:
         db_table = "tb_assessments"
@@ -249,14 +254,17 @@ class Assessment(models.Model):
     
     def to_dict_json(self):
         class_attributes = {
-            "date_created"    : self.date_created.strftime("%m-%d-%Y %H:%M:%S")
+            "date_created"    : self.date_created.strftime("%m-%d-%Y %H:%M")
             #can be null, so before formating date, check if not null
-           ,"date_completed"  : self.date_completed.strftime("%m-%d-%Y %H:%M:%S") if self.date_completed else "N/A"
+           ,"date_completed"  : self.date_completed.strftime("%m-%d-%Y %H:%M") if self.date_completed else "N/A"
+           ,"assigned_to"     : str(models_functions.get_fk_id(self.assigned_to,"email"))
            ,"difficulties"    : self.difficulties
            ,"subjects"        : self.subjects
            ,"status"          : self.status
+           ,"score"           : self.score
         }
         
+        #action       
         dict_json_return = models_functions.action_delete_column(
             reverse("questions_app:assessment_detail_url",args=[
                 self.assessment_id
@@ -267,6 +275,17 @@ class Assessment(models.Model):
             class_attributes             
         )
         
+        #button
+        #enable button only when assessment was not completed
+        if self.status == "COMPLETE":
+            dict_json_return.update({"button": None})
+        
+        else:
+            dict_json_return = models_functions.assess_run_column(
+                reverse("questions_app:question_render1",args=[self.assessment_id]),
+                dict_json_return
+            )                    
+                
         return dict_json_return
 
     def get_absolute_url(self):
@@ -281,7 +300,7 @@ class AssessmentQuestions(models.Model):
         db_column="assessment_id",
         related_name="assessment_assessment",
         null=True,
-        on_delete=models.SET_NULL        
+        on_delete=models.CASCADE       
     )
     
     question_id = models.ForeignKey(

@@ -33,7 +33,7 @@
             {{assessment_context.status}}
         </td>
         <td>
-            <label for="">Status:</label>
+            <label for="">Assigned to:</label>
             {{assessment_context.assigned_to}}
         </td>
     </tr>
@@ -59,7 +59,9 @@
                   href="{% url  'questions_app:assessment_delete_url' pk=assessment_context.assessment_id%}"
                   >Delete</a>
                 <a class="btn btn-default" href="{% url 'questions_app:assessment_list_url' %}"
-                  >Back to List</a>            
+                  >Back to List</a> 
+                <a class="btn btn-default" href="{% url 'questions_app:question_render1' pk=assessment_context.assessment_id %}"
+                  >Test Render</a>          
         </td>
     </tr>
 </table>

@@ -12,7 +12,7 @@ class CustomUserCreateForm(forms.Form, UserCreationForm ):
     email = forms.EmailField(required=True)
     
     name = forms.CharField(max_length=100, required=True)
-    is_staff = forms.BooleanField()
+    is_staff = forms.BooleanField(required=False)
         
     class Meta:
         fields = ("email", "name", "is_staff")

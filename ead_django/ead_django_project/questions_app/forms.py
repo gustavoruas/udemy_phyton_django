@@ -5,6 +5,9 @@ from django import forms
 from django.core import validators
 from django.core.exceptions import ValidationError
 from tinymce.widgets import TinyMCE
+import logging
+
+logger = logging.getLogger(__name__)
 
 class DifficultyForm(forms.ModelForm):
     
@@ -188,6 +191,15 @@ class AssessmentForm(forms.ModelForm):
             'invalid': 'Enter a valid date/time in DD-MM-YYYY HH:MM format.'
         }       
     )
+    
+    date_to_complete = forms.DateTimeField(
+        required=True,
+        initial=(datetime.datetime.now()+datetime.timedelta(days=10)).strftime("%d-%m-%Y %H:%M"),
+        input_formats=['%d-%m-%Y %H:%M'],
+        error_messages={
+            'invalid': 'Enter a valid date/time in DD-MM-YYYY HH:MM format.'
+        }        
+    )
         
     class Meta:
         model = Assessment
@@ -196,7 +208,8 @@ class AssessmentForm(forms.ModelForm):
             "subjects",
             "status",
             "assigned_to",
-            "date_created"
+            "date_created",
+            "date_to_complete"
         ]
 
     #initializing form function, to define list of valuie from DB in fields
@@ -221,6 +234,7 @@ class AssessmentForm(forms.ModelForm):
             print("in instance of subjects")
             print(self.instance.subjects)
             self.fields["subjects"].initial = self.instance.subjects.split("|")
+                       
                
     #defining both fields to save multiple elements piped by |
     def clean_difficulties(self):
@@ -231,3 +245,16 @@ class AssessmentForm(forms.ModelForm):
         selected_values = self.cleaned_data.get("subjects")
         return "|".join(selected_values)
     
+    #Clean_ fields must always return a vlue into the field they are validating. Clean runs at form POSTING
+    def clean_status(self):
+        #gets current instance of assignment
+        current_assignment = self.instance
+        #gets cleaned data from attribute assessment.status
+        current_status = self.cleaned_data.get("status")
+        
+        #If current change of form is moved to incomplete and score has prev values, reset score
+        if current_status == "INCOMPLETE" and current_assignment.score > 0:
+            current_assignment.score = 0 # defines 
+        
+        return current_status
+        

@@ -5,6 +5,22 @@
     box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2); /* Shadow background tilted to the right */
 }
 
+.question-header {
+    border-top: 2px solid rgb(204, 204, 204); /* Adds a 2px thick grey line */
+    margin-top: 15px; /* Adds 4px spacing below the line */
+    margin-bottom: 2px;
+    background: linear-gradient(to right, white, rgb(204, 204, 204)); /* Degrade from white to grey */
+    padding: 4px; /* Optional: Adds some padding inside the paragraph for better spacing */
+}
+
+.question-header-selected {
+    border-top: 2px solid #4e6180; 
+    margin-top: 15px; 
+    margin-bottom: 2px;
+    background: linear-gradient(to right, white, #4e6180); 
+    padding: 4px; 
+}
+
 .answer-row-spacing{
     margin-top: 5px;
     margin-bottom: 5px;

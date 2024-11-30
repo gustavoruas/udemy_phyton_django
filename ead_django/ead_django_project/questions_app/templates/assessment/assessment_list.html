@@ -1,17 +1,30 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+{# to import custom {} tags into all pages#. Needs to be loaded in every page used #}
+{% load user_auth_tags %}
+
 {% block content %}
+
+<script src="{% static 'js/template_question_js.js' %}"></script>
+
+<!-- custom template tag, to check roles from users  -->      
+{% has_role_from_list user.roles.all "student_role" as is_student %}
 
 <div class="table-responsive">
     <table id="myTable" class="table table-bordered">
       <thead>
-        <tr class="table-cont-header">
+        <tr class="table-cont-header">          
           <th>Date Created</th>
           <th>Date Completed</th>
+          <th>Assigned to</th>
           <th>Difficulty</th>
-          <th>Subject</th>
-          <th>status</th>
-          <th class="action_column">action</th>
+          <th>Subject</th>   
+          <th>Status</th>   
+          <th>Score</th>  
+          <th></th>            
+          <th class="action_column">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -19,19 +32,28 @@
         <td></td>  
         <td></td>
         <td></td>
-        <td></td>    
+        <td></td>
+        <td></td>
+        <td></td> 
         <td class="action_column"></td>
       </tbody>
     </table>
   </div>
 
-  <a class="btn btn-default" href="{% url 'questions_app:assessment_create_url'%}">
-    Create Assessment
-  </a>
+  {% if not is_student  %}
+    <a class="btn btn-default" href="{% url 'questions_app:assessment_create_url'%}">
+      Create Assessment
+    </a>   
+  {% endif %}
 
+  
 {% endblock content %}
 
 {% block javascript %}
+{% has_role_from_list user.roles.all "student_role" as is_student %}
+
+
+
 
 <script>
     //Initializing table API for every table with same ID
@@ -40,21 +62,51 @@
         processing: true,
         serverSide: true,
         ajax: "{% url 'questions_app:assessment_list_json_url' %}",
-        columns: [
-          { data: "date_created"  }, 
+        columns: [                  
+          { data: "date_created", width:"150px"  }, 
           { data: "date_completed" },
+          { data: "assigned_to" },
           { data: "difficulties" },
           { data: "subjects" },
-          { data: "status" },  
-          { data: "action" },  
+          { data: "status" },
+          { data: "score" },
+          { data: "button"},                                 
+          { data: "action" }
         ],
         columnDefs: [ 
+          {% if not is_student %}
+          {targets:7 , visible:false},
+          {% endif %}  
           //disables sorting for specific columns
-          {orderable: false, targets: [2] }, 
-          {searchable: false }
+          {orderable: false, targets: [7,8 ]}, 
+          {searchable: false, targets: [0,1,2,3]}
         ]
       });
+
     });
+    
+    //Only loads script if it has student role
+    {% if is_student %}   
+    //MutationObserver needed to veryfi if dynamic dataTables is fully loaded
+    $(document).ready(function () {
+      const target_node = document.body;  //check the entire document
+      const config = {childList: true, subtree: true}; //looks for DOM nodes
+
+      const observer = new MutationObserver(function(mutationsList, observer){
+        
+        if ($("#myTable").length){          
+          observer.disconnect();  //stop observing once element found
+        }
+        //once table rendered, do functions
+        hide_element_by_id("list_delete_link");
+
+      });
+      //runs search observer
+      observer.observe(target_node, config);  
+
+    });
+    {% endif %}
+
   </script>
 
 {% endblock javascript %}

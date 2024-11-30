@@ -1,20 +1,28 @@
+from questions_app.aux_library import json_datatables, models_functions, views_functions
 import math
 from django.shortcuts import render, get_object_or_404 ,redirect
 from django.urls import reverse_lazy, reverse
+from user_auth_app import models as user_auth_models
+from user_auth_app import mixins as user_auth_mixins
 from django.views.generic import (TemplateView, ListView, DetailView, CreateView,
                                   UpdateView, DeleteView
                                   )
-from .models import Difficulty, Subject, Answer, Question, QuestionFromView,Assessment
+from .models import (Difficulty, Subject, Answer, Question, QuestionFromView,
+                     Assessment, AssessmentQuestions)
 from .forms import DifficultyForm, SubjectForm, AnswerForm, QuestionForm, AssessmentForm
-from questions_app.aux_library import json_datatables, models_functions
+from django.utils.decorators import decorator_from_middleware
+from django.middleware.cache import CacheMiddleware
 import logging
+from django.db.models import Count
 from django.db import connection
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage #Needed for paging
 from django.contrib.auth.decorators import login_required  #for Function based Views
 from django.contrib.auth.mixins import LoginRequiredMixin  #for Class based Views
 from django.http import JsonResponse
+from django.http.request import QueryDict
 
 logger = logging.getLogger(__name__)
+
 
 #----------------------------------------------------------------------------Difficulty
 # Create your views here.
@@ -401,19 +409,42 @@ class AssessmentListView(LoginRequiredMixin,ListView):
 def AssessmentJson(request):
     response = {}
     
-    #query = "SELECT * FROM tb_assessments"
+    #fetching user from request, current user logged
+    current_user = request.user 
     
-    #replace_subject_ids is a SQL function created at Python level, and registered within jsondatatable_data()
-    query = """
-    SELECT assessment_id, 
-        replace_difficulty_ids(difficulties) AS difficulties, 
-        replace_subject_ids(subjects) AS subjects, 
-        status, 
-        date_created, 
-        date_completed, 
-        assigned_to, score 
-    FROM tb_assessments    
-    """
+    #filter returns Queryset, get() returns single Object.
+    roles= user_auth_models.Role.objects.filter(users=current_user)
+    
+    if roles.filter(name="student_role").exists():
+        #replace_subject_ids is a SQL function created at Python level, and registered within jsondatatable_data()
+        query = """
+        SELECT assessment_id, 
+            replace_difficulty_ids(difficulties) AS difficulties, 
+            replace_subject_ids(subjects) AS subjects, 
+            replace_user_email_by_id(assigned_to),
+            status, 
+            date_created, 
+            date_completed, 
+            score 
+        FROM tb_assessments 
+        WHERE assigned_to = {} 
+        """
+        
+        query = query.format(current_user.user_id)
+                
+    else:    
+        #replace_subject_ids is a SQL function created at Python level, and registered within jsondatatable_data()
+        query = """
+        SELECT assessment_id, 
+            replace_difficulty_ids(difficulties) AS difficulties, 
+            replace_subject_ids(subjects) AS subjects, 
+            replace_user_email_by_id(assigned_to),
+            status, 
+            date_created, 
+            date_completed, 
+            score 
+        FROM tb_assessments    
+        """
     
     # Needs to fetch current DB connection
     conn = connection.connection
@@ -424,18 +455,24 @@ def AssessmentJson(request):
     conn.create_function("replace_difficulty_ids", 1 ,
                          lambda ids: models_functions.replace_difficulties_by_id(conn, ids))   
     
+    conn.create_function("replace_user_email_by_id",1,
+                         lambda ids : models_functions.replace_user_email_by_id(ids)        
+    )
+        
+    logger.debug("user_return:" + str(models_functions.replace_user_email_by_id(3)))
+    
     response = json_datatables.json_datatable_data(
         request,
         Assessment,
         query,
         [  "date_created"
            ,"date_completed"
+           ,"replace_user_email_by_id(assigned_to)"  
            ,"status"
            ,"replace_subject_ids(subjects)"          #SQL functions built on runtime
-           ,"replace_difficulty_ids(difficulties)"   #SQL functions built on runtime  
+           ,"replace_difficulty_ids(difficulties)"   #SQL functions built on runtime
         ]
     )
-    conn
     
     return JsonResponse(response)
 
@@ -461,12 +498,18 @@ class AssessmentDetailView(LoginRequiredMixin,DetailView):
 
 
 
-class AssessmentCreateView(LoginRequiredMixin,CreateView):
+class AssessmentCreateView(LoginRequiredMixin,user_auth_mixins.RoleRequiredMixin,CreateView):
     model = Assessment
     form_class = AssessmentForm
     template_name = "assessment/assessment_form.html"
     
     redirect_field_name = "assessment/assessment_list.html"
+    
+    #lists allowed roles from CustomRoles, RoleRequiredMixin is a custom Role permission mixin
+    allowed_roles = ["admin_role","teacher_role"]
+    #RoleRequiredMixin has custom forbidden page, which must be referenced by attribute
+    #It must reference the denied page in user_auth_app, which is named in urls.py of main project.
+    permission_denied_redirect_url = "user_auth_namespace:permission_denied"    
  
     #customizing context to render in template
     #Django default, context for form is named "form"     
@@ -480,15 +523,33 @@ class AssessmentCreateView(LoginRequiredMixin,CreateView):
  
         ###################################
         ###################################
-        #TO ADD to ASSESSMENTQUESTION via def form_valid()
+        #TO ADD to ASSESSMENTQUESTION via def form_valid(), background add into DB
+    def form_valid(self, form):
+        # must perform this line, in order to create an INSTANCE within form_valid
+        response = super().form_valid(form)
+        
+        #need to instantiate via instance, the current object of Assessment being created via the
+        #form object being used in the parameter        
+        assessment_instance = form.instance
+        
+        views_functions.create_questions_for_assessment(assessment_instance)                      
+                   
+        return response
+        
         
 
-class AssessmentUpdateView(LoginRequiredMixin, UpdateView):
+class AssessmentUpdateView(LoginRequiredMixin,user_auth_mixins.RoleRequiredMixin, UpdateView):
     model = Assessment
     form_class = AssessmentForm
     template_name = "assessment/assessment_form.html"
     context_object_name = "assessment_context"
     redirect_field_name = "assessment/assessment_detail.html"
+
+    #lists allowed roles from CustomRoles, RoleRequiredMixin is a custom Role permission mixin
+    allowed_roles = ["admin_role","teacher_role"]
+    #RoleRequiredMixin has custom forbidden page, which must be referenced by attribute
+    #It must reference the denied page url in user_auth_app, which is named in urls.py of main project.
+    permission_denied_redirect_url = "user_auth_namespace:permission_denied"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -510,34 +571,100 @@ class AssessmentUpdateView(LoginRequiredMixin, UpdateView):
         return initial
         
             
-class AssessmentDeleteView(LoginRequiredMixin, DeleteView):
+class AssessmentDeleteView(LoginRequiredMixin, user_auth_mixins.RoleRequiredMixin, DeleteView):
     model = Assessment
     template_name = "assessment/assessment_confirm_delete.html"
     context_object_name = "assessment_context"
     success_url = reverse_lazy("questions_app:assessment_list_url")
     
+    #lists allowed roles from CustomRoles, RoleRequiredMixin is a custom Role permission mixin
+    allowed_roles = ["admin_role","teacher_role"]
+    #RoleRequiredMixin has custom forbidden page, which must be referenced by attribute
+    #It must reference the denied page in user_auth_app, which is named in urls.py of main project.
+    permission_denied_redirect_url = "user_auth_namespace:permission_denied"
 
 
-
+@views_functions.no_cache  # custom annotation to aavoid back button tto reload form with selected answers
 @login_required
-def render_test1(request):
+def render_test1(request, pk):
     
-    question = get_object_or_404(Question, pk=12)
+    total_assessment_questions=0
+    errors = []
+
+    #fetch current assessment being worked on
+    assessment = (Assessment.objects.get(assessment_id__exact = pk))
     
-    assesstest_questions = Question.objects.all().order_by("?")[:20]
-    logger.debug("assesstest_questions:" + str(len(assesstest_questions)))
+    if assessment.status in ("COMPLETE"):
+        logger.debug(f"test {pk} already had been done")
+        return redirect(reverse("questions_app:assessment_detail_url", kwargs={"pk":pk}))
     
+    #fetching into var a [] of QUestion ids, with value_list(), flat=True to return only single field
+    assesstest_questions_ids = (AssessmentQuestions.objects
+                                .filter(assessment_id__exact=pk)        
+    ).values_list("question_id",flat=True)
+ 
+     #https://docs.djangoproject.com/en/5.1/ref/models/querysets/#django.db.models.query.QuerySet.filter
+    #filtering using QuerySet filter() clause   
+    assesstest_questions = (Question.objects
+                            .filter(question_id__in=assesstest_questions_ids)
+                            #.order_by("?")   
+    )
     
+    total_assessment_questions = len(assesstest_questions)
+                  
     if request.method == "POST":
-        request_post = request.POST
-        logger.debug("in request POST: " + str(type(request_post)))
-        logger.debug(str(request_post.get(key="questionradio_34")))
-        logger.debug(Question.objects.get(question_id=12))
+        questions_total_answered = 0
+        request_post = request.POST        
+                
+        if isinstance(request_post, QueryDict):
+            #converts dictionary key:value, to a key:[value]
+            #list_value_dict = dict(request_post.lists())   
+            list_value_dict = request_post.dict()    
+                        
+            #filters via iteration, only for keys that have, and removes questionradio_ from question ID             
+            selected_answers_dict = {
+                key.replace("questionradio_",""):value for key, value in list_value_dict.items() 
+                if "questionradio_" in key 
+            }
+            
+            questions_total_answered = len(selected_answers_dict)   
+            
+            if questions_total_answered < total_assessment_questions:
+                errors.append("Not all questions have been answered, please review")
+                                        
+            if errors:
+                context_return = {
+                    "questions_assessment_test":assesstest_questions,        
+                    "assessment_id_cont":pk,
+                    "test_count":len(assesstest_questions),
+                    "errors":errors,
+                    "submitted_data":request_post    # returns context to check selected questions when validation fires error.
+                }
+                
+                return render(request,"question/question_render1.html",context_return)
+            
+            else:
+                
+                #validate all selected answers against correct answers from selected questions
+                total_score = views_functions.validate_assessment_score(                
+                    assesstest_questions_querydict = assesstest_questions,
+                    selected_answers_dict = selected_answers_dict,
+                    total_assessment_questions = total_assessment_questions                
+                )
+                
+                assessment.score = total_score
+                assessment.status = "COMPLETE"
+                
+                assessment.save()
+                              
+                #REVERSE returns the URL string, so to browse to that location, redirect() is needed                                                
+                return  redirect(reverse("questions_app:assessment_detail_url", kwargs={"pk":pk}))            
+            
             
     context_return = {
-        "questions_assessment_test":assesstest_questions,
-        "question_render_cont":question,
-        "test_count":len(assesstest_questions)
+        "questions_assessment_test":assesstest_questions,        
+        "assessment_id_cont":pk,
+        "test_count":len(assesstest_questions)       
     }
     
     return render(request,"question/question_render1.html",context_return)
