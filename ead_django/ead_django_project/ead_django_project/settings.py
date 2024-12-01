@@ -175,6 +175,7 @@ logger.setLevel(logging.DEBUG)  #only one at a time may be defined
 logger.addHandler(logging.StreamHandler())
 
 
+
 # tinyMCE configuration
 TINYMCE_DEFAULT_CONFIG = {
     "theme": "silver",
@@ -188,4 +189,6 @@ TINYMCE_DEFAULT_CONFIG = {
     "alignright alignjustify | bullist numlist outdent indent | "
     "table | removeformat | help",
 }
+
+
 

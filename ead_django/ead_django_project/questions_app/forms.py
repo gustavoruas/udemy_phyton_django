@@ -1,6 +1,7 @@
 import datetime
 from django.shortcuts import get_object_or_404
 from .models import Difficulty, Subject, Answer, Question, Assessment
+from django.conf import settings
 from django import forms
 from django.core import validators
 from django.core.exceptions import ValidationError
@@ -33,6 +34,7 @@ class AnswerForm(forms.ModelForm):
     # put {{ form.media }}, in order to load editor for tinyMCE in HTML template
     #https://stackoverflow.com/questions/71839445/django-tinymce-working-with-django-admin-but-not-working-in-form-template
     answer_html_text = forms.CharField(widget=TinyMCE(attrs={'cols':50, 'rows':12}))
+    
     #customizing date format in the field
     date_created     = forms.DateTimeField(
         required=False,
@@ -194,6 +196,7 @@ class AssessmentForm(forms.ModelForm):
     
     date_to_complete = forms.DateTimeField(
         required=True,
+        #creates a date 10 days ahead
         initial=(datetime.datetime.now()+datetime.timedelta(days=10)).strftime("%d-%m-%Y %H:%M"),
         input_formats=['%d-%m-%Y %H:%M'],
         error_messages={
@@ -244,6 +247,24 @@ class AssessmentForm(forms.ModelForm):
     def clean_subjects(self):
         selected_values = self.cleaned_data.get("subjects")
         return "|".join(selected_values)
+    
+    def clean_date_to_complete(self):
+        errors = []
+        current_date_to_complete = self.cleaned_data.get("date_to_complete")
+
+        # Ensure both datetimes are naive or both are aware
+        now = ( datetime.datetime.now(tz=current_date_to_complete.tzinfo) 
+               if current_date_to_complete.tzinfo else datetime.datetime.now() )
+        
+        #datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
+        if current_date_to_complete < now:
+            errors.append(
+                ValidationError("Date to complete has to be greater than today.")
+            )
+        
+        if errors : raise ValidationError(errors)
+            
+        return current_date_to_complete
     
     #Clean_ fields must always return a vlue into the field they are validating. Clean runs at form POSTING
     def clean_status(self):

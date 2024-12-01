@@ -18,7 +18,7 @@
 
 <br>
 
-<form method="POST">
+<form method="POST" onsubmit="assessment_submit_form(event, this);">
     {% csrf_token %}
     {% for question  in questions_assessment_test.all  %}
 

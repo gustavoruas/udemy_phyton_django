@@ -23,13 +23,15 @@
     <form method="POST">
         {% csrf_token %}
 
+        {{ form.media }} {# this is required for load tinyMCE #}
+
         {# {% bootstrap_form customuser_form error_types="none" layout='inline' %} #}
         {% for field  in assessment_form  %}
         <p> 
         <label for="{{ field.id_for_label }}">
             
             {{ field.label }} {{field}}
-            {{ form.media }} {# this is required for load tinyMCE #}
+            
         </label>
         </p>                  
         {% endfor %}        
@@ -54,7 +56,11 @@
         //iterateble fields get naming from model class starting with id_<<class_attribute>>
         new DateTime(document.getElementById('id_date_created'), {
             format: 'DD-MM-YYYY HH:mm'
-        });        
+        });
+        
+        new DateTime(document.getElementById('id_date_to_complete'), {
+            format: 'DD-MM-YYYY HH:mm'
+        });         
     }
     )
 

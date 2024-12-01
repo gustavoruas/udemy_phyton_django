@@ -19,6 +19,28 @@ function check_close_window(){
 }
 
 
+function assessment_submit_form(event, form_element){
+
+    event.preventDefault(); //default form submission
+
+    const form_data = new FormData(form_element);
+    fetch(form_element.action, {
+        method:"POST",
+        body:form_data,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === "success"){
+            alert("Assessment submitted with success. Closing test screen.");
+            window.close();
+        }
+    })
+    .catch( error => {
+        console.error("Error submitting form:", error);
+    });
+}
+
+
 function open_custom_popup_window(url, width, height){
     console.log(`open_custom_popup_window:width=${width},height=${height}`);
 

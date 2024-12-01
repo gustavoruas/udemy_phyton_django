@@ -10,7 +10,6 @@
     </p>
 
     {% for answers in question.question_answers.all %}
-
     
         <div class="form-group">
             <div class="radio answer-row-spacing">
@@ -19,17 +18,17 @@
                     name="questionradio_{{question.question_id}}" 
                     id="{{answers.answer_id}}"
                     value="{{answers.answer_id}}"
-{% comment "" %}
-will check the radio box from previous request.POST data
- called as context submitted_data. template validates same Type as well, so must convert to STR()
-{% endcomment %}
-{% with "questionradio_"|concat_to_str:question.question_id as question_key %}
-{% if submitted_data %}
-    {% if submitted_data|get_dict_item:question_key == answers.answer_id|stringformat:"s" %}
-    checked
-    {% endif %}
-{% endif %}                
-{% endwith %}                   
+                    {% comment "" %}
+                    will check the radio box from previous request.POST data
+                     called as context submitted_data. template validates same Type as well, so must convert to STR()
+                    {% endcomment %}
+                    {% with "questionradio_"|concat_to_str:question.question_id as question_key %}
+                    {% if submitted_data %}
+                        {% if submitted_data|get_dict_item:question_key == answers.answer_id|stringformat:"s" %}
+                        checked
+                        {% endif %}
+                    {% endif %}                
+                    {% endwith %}                   
 
                     >                    
                     {{answers.answer_html_text|safe}}

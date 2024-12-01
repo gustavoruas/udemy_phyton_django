@@ -29,6 +29,8 @@
     <form method="POST">
         {% csrf_token %}
 
+        {{ form.media }} {# this is required for load tinyMCE #}
+
         {# {% bootstrap_form customuser_form error_types="none" layout='inline' %} #}
         {% for field  in answer_form  %}
         <p> 
@@ -36,7 +38,7 @@
             
 
             {{ field.label }} {{field}}
-            {{ form.media }} {# this is required for load tinyMCE #}
+            
         </label>
         </p>                  
         {% endfor %}        
@@ -65,9 +67,25 @@
             format: 'DD-MM-YYYY HH:mm'
         });        
     }
-    )
-
-
+    );
+    
+    //Customizing different tinyMCE configs via JS. Files being loaded from django Library config.
+    tinymce.init({
+      selector: 'textarea#id_answer_html_text',  // change this value according to the HTML
+      width: 700,
+      height: 350,
+      plugins: [
+      'advlist', 'lists', 'charmap', 'preview','searchreplace', 'wordcount', 'visualblocks',
+      'visualchars', 'code', 'fullscreen', 'insertdatetime',
+      'table', 'emoticons', 'help'
+      ],
+      toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+        'bullist numlist outdent indent |' +
+        'forecolor backcolor emoticons | help',
+      menubar: 'file edit view insert format tools table help',
+      content_css: 'css/content.css'
+      });
+     
 </script>
 
 {% endblock javascript %}

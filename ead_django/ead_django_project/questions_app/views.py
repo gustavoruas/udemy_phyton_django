@@ -658,8 +658,11 @@ def render_test1(request, pk):
                 assessment.save()
                               
                 #REVERSE returns the URL string, so to browse to that location, redirect() is needed                                                
-                return  redirect(reverse("questions_app:assessment_detail_url", kwargs={"pk":pk}))            
-            
+                #return  redirect(reverse("questions_app:assessment_detail_url", kwargs={"pk":pk}))            
+
+                #returning JSON to validate windows.close via JS when successfull.
+                return JsonResponse({"status":"success"})
+                
             
     context_return = {
         "questions_assessment_test":assesstest_questions,        
